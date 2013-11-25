@@ -15,7 +15,6 @@
         'account_view.xml',
         'data/financial_webkit_header.xml',
         'report/report.xml',
-        'wizard/wizard.xml',
         'wizard/balance_common_view.xml',
         'wizard/general_ledger_wizard_view.xml',
         'wizard/partners_ledger_wizard_view.xml',

@@ -15,26 +15,21 @@ class AccountTrialBalanceWizard(osv.TransientModel):
         res = obj.read(cr, uid, ids, ['id', 'name'], context=context)
         return [(r['id'], r['name']) for r in res]
 
-    def _ledger_types(self, cr, uid, context):
-        #obj = self.pool.get('alternate_ledger.ledger_type')
-        #ids = obj.search(cr, uid, [])
-        #res = obj.read(cr, uid, ids, ['id', 'name'], context=context)
-        #return [(r['id'], r['name']) for r in res]
-        # TODO : Test if alternate ledger is installed
-        return []
-
-    def _default_ledger_type(self, cr, uid, context):
-        #obj = self.pool.get('alternate_ledger.ledger_type')
-        #return obj.search(cr, uid, [('name', '=', 'A')])
-        #TODO: Test if alternate ledger is installed
-        return []
-
+    def _default_ledger_types(self, cr, uid, context):
+#         obj = self.pool.get('alternate_ledger.ledger_type')
+#         return obj.search(cr, uid, [('name', '=', 'A')])
+        return []  # TODO alternate_ledge
 
     _columns = {
         'analytic_codes': fields.selection(_analytic_dimensions,
             string=_('Ouput element')),
-        'ledger_type': fields.selection(_ledger_types,
-            string=_('Ledger Type'), required=True),
+        # TODO alternate_ledger
+        'ledger_types': fields.many2many(
+            'res.users',
+#             'alternate_ledger.ledger_type',
+            string='Ledger types',
+#             required=True
+        ),
         'account_from': fields.char(_('From account'), size=255),
         'account_to': fields.char(_('To account'), size=255),
         'currency_id': fields.many2one('res.currency',
@@ -43,7 +38,7 @@ class AccountTrialBalanceWizard(osv.TransientModel):
     }
 
     _defaults = {
-        'ledger_type': _default_ledger_type,
+        'ledger_types': _default_ledger_types,
         'include_zero': lambda *a: False,
     }
 
@@ -53,7 +48,7 @@ class AccountTrialBalanceWizard(osv.TransientModel):
         data['form'].update(self.read(
             cr, uid, ids,
             ['analytic_codes',
-             'ledger_type',
+             'ledger_types',
              'account_from',
              'account_to',
              'currency_id',
@@ -61,5 +56,5 @@ class AccountTrialBalanceWizard(osv.TransientModel):
             context=context)[0]
         )
         return {'type': 'ir.actions.report.xml',
-                'report_name': 'account.account_report_trial_balance_webkit',
+                'report_name': 'account.account_report_trial_balance_advanced',
                 'datas': data}

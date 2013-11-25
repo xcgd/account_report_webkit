@@ -11,7 +11,7 @@
                         <newline />
                         <field name="allocated" />
                         <newline />
-                        <field name="ledger_type" />
+                        <field name="ledger_types" widget="many2many_tags" />
                         <newline />
                     </xpath>
 

@@ -30,19 +30,10 @@ class AccountReportGeneralLedgerWizard(orm.TransientModel):
         res = obj.read(cr, uid, ids, ['id', 'name'], context=context)
         return [(r['id'], r['name']) for r in res]
 
-    def _ledger_types(self, cr, uid, context):
-        #obj = self.pool.get('alternate_ledger.ledger_type')
-        #ids = obj.search(cr, uid, [])
-        #res = obj.read(cr, uid, ids, ['id', 'name'], context=context)
-        #return [(r['id'], r['name']) for r in res]
-        # TODO: Test if alternate ledger is install.
-        return []
-
-    def _default_ledger_type(self, cr, uid, context):
-        #obj = self.pool.get('alternate_ledger.ledger_type')
-        #return obj.search(cr, uid, [('name', '=', 'A')])
-        #TODO: Test id alternate ledger is installed
-        return []
+    def _default_ledger_types(self, cr, uid, context):
+#         obj = self.pool.get('alternate_ledger.ledger_type')
+#         return obj.search(cr, uid, [('name', '=', 'A')])
+        return []  # TODO alternate_ledger
 
     def _get_account_ids(self, cr, uid, context=None):
         res = False
@@ -82,10 +73,12 @@ class AccountReportGeneralLedgerWizard(orm.TransientModel):
             required=True,
             translate=True
         ),
-        'ledger_type': fields.selection(
-            _ledger_types,
-            string=_('Ledger Type'),
-            required=True
+        # TODO alternate_ledger
+        'ledger_types': fields.many2many(
+            'res.users',
+#             'alternate_ledger.ledger_type',
+            string='Ledger types',
+#             required=True
         ),
         'account_from': fields.char(_('From account'), size=255),
         'account_to': fields.char(_('To account'), size=255),
@@ -104,7 +97,7 @@ class AccountReportGeneralLedgerWizard(orm.TransientModel):
         'account_ids': _get_account_ids,
         'centralize': True,
         'allocated': lambda *a: 'all',
-        'ledger_type': _default_ledger_type,
+        'ledger_types': _default_ledger_types,
         'include_zero': lambda *a: False,
     }
 
@@ -212,7 +205,7 @@ class AccountReportGeneralLedgerWizard(orm.TransientModel):
             cr, uid, ids,
             ['analytic_codes',
              'allocated',
-             'ledger_type',
+             'ledger_types',
              'account_from',
              'account_to',
              'currency_id',

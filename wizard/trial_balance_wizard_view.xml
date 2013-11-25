@@ -14,7 +14,7 @@
                 <data>
                     <xpath expr="//field[@name='target_move']" position="after">
                         <newline />
-                        <field name="ledger_type" />
+                        <field name="ledger_types" widget="many2many_tags" />
                     </xpath>
                     <xpath expr="/form/label[@string='']" position="replace">
                         <separator string="Trial Balance" colspan="4"/>

@@ -1,4 +1,7 @@
 def compare_ledger_types(account, data, orm):
+    # TODO alternate_ledger
+    return True
+
     account_ledgers = [ledger.id for ledger in account.ledger_types]
     selected_ledger = int(data['form']['ledger_type'])
 

@@ -7,8 +7,10 @@
     'license': 'AGPL-3',
     'category': 'Finance',
     'website': '',
-    'depends': ['account',
-                'report_webkit'],
+    'depends': [
+        'account_streamline',
+        'report_webkit'
+    ],
     'init_xml': [],
     'demo_xml' : [],
     'update_xml': [

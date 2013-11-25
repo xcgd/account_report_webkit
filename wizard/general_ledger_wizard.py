@@ -21,16 +21,14 @@ class AccountReportGeneralLedgerWizard(orm.TransientModel):
     ]
 
     def _analytic_dimensions(self, cr, uid, context):
-        #obj = self.pool.get('analytic.dimension')
-        #ids = obj.search(
-        #    cr, uid,
-        #    [('ns_id.model_name', '=', 'account_account')],
-        #    context=context
-        #)
-        #res = obj.read(cr, uid, ids, ['id', 'name'], context=context)
-        #return [(r['id'], r['name']) for r in res]
-        #TODO: Test if analytic is installed
-        return []
+        obj = self.pool.get('analytic.dimension')
+        ids = obj.search(
+            cr, uid,
+            [('ns_id.model_name', '=', 'account_account')],
+            context=context
+        )
+        res = obj.read(cr, uid, ids, ['id', 'name'], context=context)
+        return [(r['id'], r['name']) for r in res]
 
     def _ledger_types(self, cr, uid, context):
         #obj = self.pool.get('alternate_ledger.ledger_type')

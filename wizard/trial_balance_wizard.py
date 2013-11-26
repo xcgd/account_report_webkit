@@ -1,5 +1,4 @@
 from osv import fields, osv
-from openerp.tools.translate import _
 
 
 class AccountTrialBalanceWizard(osv.TransientModel):
@@ -21,8 +20,10 @@ class AccountTrialBalanceWizard(osv.TransientModel):
         return []  # TODO alternate_ledge
 
     _columns = {
-        'analytic_codes': fields.selection(_analytic_dimensions,
-            string=_('Ouput element')),
+        'analytic_codes': fields.selection(
+            _analytic_dimensions,
+            string='Ouput element'
+        ),
         # TODO alternate_ledger
         'ledger_types': fields.many2many(
             'res.users',
@@ -30,11 +31,15 @@ class AccountTrialBalanceWizard(osv.TransientModel):
             string='Ledger types',
 #             required=True
         ),
-        'account_from': fields.char(_('From account'), size=255),
-        'account_to': fields.char(_('To account'), size=255),
-        'currency_id': fields.many2one('res.currency',
-            string=_('Filter on currencies')),
-        'include_zero': fields.boolean(_('Include accounts at 0')),
+        'account_from': fields.char('From account', size=256),
+        'account_to': fields.char('To account', size=256),
+        'currency_id': fields.many2one(
+            'res.currency',
+            string='Filter on currencies'
+        ),
+        'include_zero': fields.boolean(
+            'Include accounts at 0'
+        ),
     }
 
     _defaults = {
@@ -45,16 +50,18 @@ class AccountTrialBalanceWizard(osv.TransientModel):
     def _print_report(self, cr, uid, ids, data, context=None):
         data = self.pre_print_report(cr, uid, ids, data, context=context)
         # we update form with display account value
-        data['form'].update(self.read(
-            cr, uid, ids,
-            ['analytic_codes',
-             'ledger_types',
-             'account_from',
-             'account_to',
-             'currency_id',
-             'include_zero'],
-            context=context)[0]
+        data['form'].update(
+            self.read(cr, uid, ids, [
+                'analytic_codes',
+                'ledger_types',
+                'account_from',
+                'account_to',
+                'currency_id',
+                'include_zero'
+            ], context=context)[0]
         )
-        return {'type': 'ir.actions.report.xml',
-                'report_name': 'account.account_report_trial_balance_advanced',
-                'datas': data}
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': 'account.account_report_trial_balance_webkit',
+            'datas': data
+        }

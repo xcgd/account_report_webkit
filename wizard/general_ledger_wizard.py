@@ -1,7 +1,6 @@
 import time
 
 from openerp.osv import fields, orm
-from openerp.tools.translate import _
 
 
 class AccountReportGeneralLedgerWizard(orm.TransientModel):
@@ -65,11 +64,11 @@ class AccountReportGeneralLedgerWizard(orm.TransientModel):
         ),
         'analytic_codes': fields.selection(
             _analytic_dimensions,
-            string=_('Ouput element')
+            string='Ouput element'
         ),
         'allocated': fields.selection(
             alloc_enum,
-            string=_('Allocated'),
+            string='Allocated',
             required=True,
             translate=True
         ),
@@ -80,14 +79,14 @@ class AccountReportGeneralLedgerWizard(orm.TransientModel):
             string='Ledger types',
 #             required=True
         ),
-        'account_from': fields.char(_('From account'), size=255),
-        'account_to': fields.char(_('To account'), size=255),
+        'account_from': fields.char('From account', size=256),
+        'account_to': fields.char('To account', size=256),
         'currency_id': fields.many2one(
             'res.currency',
-            string=_('Filter on currencies')
+            string='Filter on currencies'
         ),
         'include_zero': fields.boolean(
-            _('Include accounts that have no transaction')
+            'Include accounts that have no transaction'
         ),
     }
 
@@ -124,12 +123,12 @@ class AccountReportGeneralLedgerWizard(orm.TransientModel):
         )
         # will be used to attach the report on the main account
         data['ids'] = [data['form']['chart_account_id']]
-        vals = self.read(cr, uid, ids,
-                         ['amount_currency',
-                          'display_account',
-                          'account_ids',
-                          'centralize'],
-                         context=context)[0]
+        vals = self.read(cr, uid, ids, [
+            'amount_currency',
+            'display_account',
+            'account_ids',
+            'centralize'
+        ], context=context)[0]
         data['form'].update(vals)
         return data
 
@@ -201,19 +200,19 @@ class AccountReportGeneralLedgerWizard(orm.TransientModel):
     def _print_report(self, cr, uid, ids, data, context=None):
         # we update form with display account value
         data = self.pre_print_report(cr, uid, ids, data, context=context)
-        data['form'].update(self.read(
-            cr, uid, ids,
-            ['analytic_codes',
-             'allocated',
-             'ledger_types',
-             'account_from',
-             'account_to',
-             'currency_id',
-             'include_zero'],
-            context=context)[0]
+        data['form'].update(
+            self.read(cr, uid, ids, [
+                'analytic_codes',
+                'allocated',
+                'ledger_types',
+                'account_from',
+                'account_to',
+                'currency_id',
+                'include_zero'
+            ], context=context)[0]
         )
         return {
             'type': 'ir.actions.report.xml',
-            'report_name': 'account.account_report_general_ledger_advanced',
+            'report_name': 'account.account_report_general_ledger_webkit',
             'datas': data
         }

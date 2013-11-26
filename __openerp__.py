@@ -9,10 +9,11 @@
     'website': '',
     'depends': [
         'account_streamline',
-        'report_webkit'
+        'alternate_ledger',
+        'report_webkit',
     ],
     'init_xml': [],
-    'demo_xml' : [],
+    'demo_xml': [],
     'update_xml': [
         'account_view.xml',
         'data/financial_webkit_header.xml',

@@ -37,6 +37,10 @@ class AccountTrialBalanceWizard(orm.TransientModel):
         'ledger_types': fields.many2many(
             'alternate_ledger.ledger_type' if ledger_available
             else 'fake_alternate_ledger',
+            'trial_balance_report_ledger_type_rel' if ledger_available
+            else None,
+            'trial_balance_report_id',
+            'ledger_type_id',
             string='Ledger types',
             required=ledger_available,
             invisible=not ledger_available

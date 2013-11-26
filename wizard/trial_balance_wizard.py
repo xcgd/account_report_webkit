@@ -1,7 +1,16 @@
-from osv import fields, osv
+from openerp.osv import fields, orm
+
+# The alternate_ledger module is not required; fallback gracefully.
+try:
+    import openerp.addons.alternate_ledger
+    ledger_available = True
+except ImportError:
+    class FakeLedger(orm.Model):
+        _name = 'fake_alternate_ledger'
+    ledger_available = False
 
 
-class AccountTrialBalanceWizard(osv.TransientModel):
+class AccountTrialBalanceWizard(orm.TransientModel):
     _inherit = "account.common.balance.report"
     _description = "Trial Balance Report"
     _name = "trial.balance.webkit"
@@ -15,21 +24,22 @@ class AccountTrialBalanceWizard(osv.TransientModel):
         return [(r['id'], r['name']) for r in res]
 
     def _default_ledger_types(self, cr, uid, context):
-#         obj = self.pool.get('alternate_ledger.ledger_type')
-#         return obj.search(cr, uid, [('name', '=', 'A')])
-        return []  # TODO alternate_ledge
+        if not ledger_available:
+            return []
+        obj = self.pool.get('alternate_ledger.ledger_type')
+        return obj.search(cr, uid, [('name', '=', 'A')], context=context)
 
     _columns = {
         'analytic_codes': fields.selection(
             _analytic_dimensions,
             string='Ouput element'
         ),
-        # TODO alternate_ledger
         'ledger_types': fields.many2many(
-            'res.users',
-#             'alternate_ledger.ledger_type',
+            'alternate_ledger.ledger_type' if ledger_available
+            else 'fake_alternate_ledger',
             string='Ledger types',
-#             required=True
+            required=ledger_available,
+            invisible=not ledger_available
         ),
         'account_from': fields.char('From account', size=256),
         'account_to': fields.char('To account', size=256),
@@ -49,16 +59,17 @@ class AccountTrialBalanceWizard(osv.TransientModel):
 
     def _print_report(self, cr, uid, ids, data, context=None):
         data = self.pre_print_report(cr, uid, ids, data, context=context)
-        # we update form with display account value
+        up_fields = [
+            'analytic_codes',
+            'account_from',
+            'account_to',
+            'currency_id',
+            'include_zero'
+        ]
+        if ledger_available:
+            up_fields.append('ledger_types')
         data['form'].update(
-            self.read(cr, uid, ids, [
-                'analytic_codes',
-                'ledger_types',
-                'account_from',
-                'account_to',
-                'currency_id',
-                'include_zero'
-            ], context=context)[0]
+            self.read(cr, uid, ids, up_fields, context=context)[0]
         )
         return {
             'type': 'ir.actions.report.xml',

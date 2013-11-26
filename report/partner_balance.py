@@ -86,5 +86,5 @@ class PartnerBalanceWebkit(report_sxw.rml_parse, CommonPartnerBalanceReportHeade
 
 HeaderFooterTextWebKitParser('report.account.account_report_partner_balance_webkit',
                              'account.account',
-                             'addons/account_financial_report_webkit/report/templates/account_report_partner_balance.mako',
+                             'addons/account_report_webkit/report/templates/account_report_partner_balance.mako',
                              parser=PartnerBalanceWebkit)

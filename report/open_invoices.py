@@ -234,5 +234,5 @@ class PartnersOpenInvoicesWebkit(report_sxw.rml_parse, CommonPartnersReportHeade
 
 HeaderFooterTextWebKitParser('report.account.account_report_open_invoices_webkit',
                              'account.account',
-                             'addons/account_financial_report_webkit/report/templates/account_report_open_invoices.mako',
+                             'addons/account_report_webkit/report/templates/account_report_open_invoices.mako',
                              parser=PartnersOpenInvoicesWebkit)

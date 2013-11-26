@@ -116,5 +116,5 @@ class AccountReportPartnersLedgerWizard(orm.TransientModel):
         # we update form with display account value
         data = self.pre_print_report(cursor, uid, ids, data, context=context)
         return {'type': 'ir.actions.report.xml',
-                'report_name': 'account.account_partners_ledger_report_webkit',
+                'report_name': 'account.account_report_partners_ledger_webkit',
                 'datas': data}

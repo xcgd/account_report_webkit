@@ -3,13 +3,19 @@ import time
 from openerp.osv import fields, orm
 
 # The alternate_ledger module is not required; fallback gracefully.
-try:
-    import openerp.addons.alternate_ledger
-    ledger_available = True
-except ImportError:
-    class FakeLedger(orm.Model):
-        _name = 'fake_alternate_ledger'
-    ledger_available = False
+
+# TODO Disabled for now; to be discussed...
+class FakeLedger(orm.Model):
+    _name = 'fake_alternate_ledger'
+ledger_available = False
+
+# try:
+#     import openerp.addons.alternate_ledger
+#     ledger_available = True
+# except ImportError:
+#     class FakeLedger(orm.Model):
+#         _name = 'fake_alternate_ledger'
+#     ledger_available = False
 
 
 class AccountReportGeneralLedgerWizard(orm.TransientModel):
@@ -87,8 +93,10 @@ class AccountReportGeneralLedgerWizard(orm.TransientModel):
             else 'fake_alternate_ledger',
             'general_ledger_report_ledger_type_rel' if ledger_available
             else None,
-            'general_ledger_report_id',
-            'ledger_type_id',
+            'general_ledger_report_id' if ledger_available
+            else None,
+            'ledger_type_id' if ledger_available
+            else None,
             string='Ledger types',
             required=ledger_available,
             invisible=not ledger_available

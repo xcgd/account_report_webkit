@@ -1,4 +1,8 @@
 def compare_ledger_types(account, data, orm):
+    if 'ledger_types' not in data['form']:
+        # alternate_ledger is not installed; ignore this filter.
+        return True
+
     account_ledgers = [ledger.id for ledger in account.ledger_types]
     selected_ledgers = data['form']['ledger_types']
 

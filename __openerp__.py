@@ -9,7 +9,6 @@
     'website': '',
     'depends': [
         'account_streamline',
-        'alternate_ledger',
         'report_webkit',
     ],
     'init_xml': [],

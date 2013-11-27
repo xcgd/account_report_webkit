@@ -1,4 +1,8 @@
 def compare_ledger_types(account, data, orm):
+    if not hasattr(account, 'ledger_types'):
+        # Ignore this filter when alternate_ledger is not installed.
+        return True
+
     selected_ledger = data['form']['ledger_type']
     account_ledgers = [ledger.id for ledger in account.ledger_types]
 

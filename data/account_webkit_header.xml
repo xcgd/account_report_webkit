@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <openerp>
     <data noupdate="1">
-        <record id="financial_landscape_header" model="ir.header_webkit">
+        <record id="account_landscape_header" model="ir.header_webkit">
             <field name="footer_html"><![CDATA[
 <html>
     <head>
@@ -176,10 +176,10 @@ act_as_colgroup {
 
 ]]>
             </field>
-            <field name="name">Financial Landscape Header</field>
+            <field name="name">Account Landscape Header</field>
         </record>
 
-        <record id="financial_portrait_header" model="ir.header_webkit">
+        <record id="account_portrait_header" model="ir.header_webkit">
             <field name="footer_html"><![CDATA[
 <html>
     <head>
@@ -403,7 +403,7 @@ act_as_colgroup {
 
 ]]>
             </field>
-            <field name="name">Financial Portrait Header</field>
+            <field name="name">Account Portrait Header</field>
         </record>
     </data>
 </openerp>

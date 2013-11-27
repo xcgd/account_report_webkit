@@ -15,7 +15,7 @@
     'demo_xml': [],
     'update_xml': [
         'account_view.xml',
-        'data/financial_webkit_header.xml',
+        'data/account_webkit_header.xml',
         'report/report.xml',
         'wizard/balance_common_view.xml',
         'wizard/general_ledger_wizard_view.xml',

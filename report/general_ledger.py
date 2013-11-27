@@ -329,7 +329,9 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
         return False
 
 
-HeaderFooterTextWebKitParser('report.account.account_report_general_ledger_webkit',
-                             'account.account',
-                             'addons/account_report_webkit/report/templates/account_report_general_ledger.mako',
-                             parser=GeneralLedgerWebkit)
+HeaderFooterTextWebKitParser(
+    'report.account.account_report_webkit_general_ledger',
+    'account.account',
+    'addons/account_report_webkit/report/templates/account_report_general_ledger.mako',
+    parser=GeneralLedgerWebkit
+)

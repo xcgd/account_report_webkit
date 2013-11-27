@@ -139,9 +139,11 @@ class PrintJournalWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
 
         return super(PrintJournalWebkit, self).set_context(objects, data, new_ids, report_type=report_type)
 
-HeaderFooterTextWebKitParser('report.account.account_report_print_journal_webkit',
-                             'account.journal.period',
-                             'addons/account_report_webkit/report/templates/account_report_print_journal.mako',
-                             parser=PrintJournalWebkit)
+HeaderFooterTextWebKitParser(
+    'report.account.account_report_webkit_print_journal',
+    'account.journal.period',
+    'addons/account_report_webkit/report/templates/account_report_print_journal.mako',
+    parser=PrintJournalWebkit
+)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

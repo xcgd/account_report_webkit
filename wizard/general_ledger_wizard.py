@@ -215,6 +215,6 @@ class AccountReportGeneralLedgerWizard(orm.TransientModel):
         )
         return {
             'type': 'ir.actions.report.xml',
-            'report_name': 'account.account_report_general_ledger_webkit',
+            'report_name': 'account.account_report_webkit_general_ledger',
             'datas': data
         }

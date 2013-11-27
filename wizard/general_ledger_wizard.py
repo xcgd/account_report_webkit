@@ -2,21 +2,6 @@ import time
 
 from openerp.osv import fields, orm
 
-# The alternate_ledger module is not required; fallback gracefully.
-
-# TODO Disabled for now; to be discussed...
-class FakeLedger(orm.Model):
-    _name = 'fake_alternate_ledger'
-ledger_available = False
-
-# try:
-#     import openerp.addons.alternate_ledger
-#     ledger_available = True
-# except ImportError:
-#     class FakeLedger(orm.Model):
-#         _name = 'fake_alternate_ledger'
-#     ledger_available = False
-
 
 class AccountReportGeneralLedgerWizard(orm.TransientModel):
     """Will launch general ledger report and pass required args"""
@@ -44,12 +29,6 @@ class AccountReportGeneralLedgerWizard(orm.TransientModel):
         res = obj.read(cr, uid, ids, ['id', 'name'], context=context)
         return [(r['id'], r['name']) for r in res]
 
-    def _default_ledger_types(self, cr, uid, context):
-        if not ledger_available:
-            return []
-        obj = self.pool.get('alternate_ledger.ledger_type')
-        return obj.search(cr, uid, [('name', '=', 'A')], context=context)
-
     def _get_account_ids(self, cr, uid, context=None):
         res = False
         if (context.get('active_model', False) == 'account.account' and
@@ -57,6 +36,10 @@ class AccountReportGeneralLedgerWizard(orm.TransientModel):
             ):
             res = context['active_ids']
         return res
+
+    def _ledger_type_available(self, cr, uid, context=None):
+        obj = self.pool.get('account_streamline.ledger_type')
+        return obj.search(cr, uid, [], context=context) != []
 
     _columns = {
         'amount_currency': fields.boolean(
@@ -88,18 +71,15 @@ class AccountReportGeneralLedgerWizard(orm.TransientModel):
             required=True,
             translate=True
         ),
-        'ledger_types': fields.many2many(
-            'alternate_ledger.ledger_type' if ledger_available
-            else 'fake_alternate_ledger',
-            'general_ledger_report_ledger_type_rel' if ledger_available
-            else None,
-            'general_ledger_report_id' if ledger_available
-            else None,
-            'ledger_type_id' if ledger_available
-            else None,
-            string='Ledger types',
-            required=ledger_available,
-            invisible=not ledger_available
+        'ledger_type': fields.many2one(
+            'account_streamline.ledger_type',
+            string='Ledger type',
+            help='Ledger selection: only accounts defined for the selected'
+                 ' ledger will be printed; or accounts in the actual ledger'
+                 ' if this is left unselected.'
+        ),
+        'ledger_type_available': fields.boolean(
+            invisible=True
         ),
         'account_from': fields.char('From account', size=256),
         'account_to': fields.char('To account', size=256),
@@ -118,7 +98,7 @@ class AccountReportGeneralLedgerWizard(orm.TransientModel):
         'account_ids': _get_account_ids,
         'centralize': True,
         'allocated': lambda *a: 'all',
-        'ledger_types': _default_ledger_types,
+        'ledger_type_available': _ledger_type_available,
         'include_zero': lambda *a: False,
     }
 
@@ -224,13 +204,12 @@ class AccountReportGeneralLedgerWizard(orm.TransientModel):
         up_fields = [
             'analytic_codes',
             'allocated',
+            'ledger_type',
             'account_from',
             'account_to',
             'currency_id',
             'include_zero'
         ]
-        if ledger_available:
-            up_fields.append('ledger_types')
         data['form'].update(
             self.read(cr, uid, ids, up_fields, context=context)[0]
         )

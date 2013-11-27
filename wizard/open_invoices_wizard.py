@@ -117,5 +117,5 @@ By amending the clearance date, you will be, for instance, able to answer the qu
         # we update form with display account value
         data = self.pre_print_report(cr, uid, ids, data, context=context)
         return {'type': 'ir.actions.report.xml',
-                'report_name': 'account.account_report_webkit_open_invoices',
+                'report_name': 'account.account_report_open_invoices_webkit',
                 'datas': data}

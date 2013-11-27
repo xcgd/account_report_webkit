@@ -55,5 +55,5 @@ class AccountPartnerBalanceWizard(orm.TransientModel):
         data = self.pre_print_report(cursor, uid, ids, data, context=context)
 
         return {'type': 'ir.actions.report.xml',
-                'report_name': 'account.account_report_webkit_partner_balance',
+                'report_name': 'account.account_report_partner_balance_webkit',
                 'datas': data}

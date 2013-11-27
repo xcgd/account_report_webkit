@@ -64,6 +64,6 @@ class AccountTrialBalanceWizard(orm.TransientModel):
         )
         return {
             'type': 'ir.actions.report.xml',
-            'report_name': 'account.account_report_webkit_trial_balance',
+            'report_name': 'account.account_report_trial_balance_webkit',
             'datas': data
         }

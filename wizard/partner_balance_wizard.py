@@ -29,6 +29,10 @@ class AccountPartnerBalanceWizard(orm.TransientModel):
     _name = "partner.balance.webkit"
     _description = "Partner Balance Report"
 
+    def _ledger_type_available(self, cr, uid, context=None):
+        obj = self.pool.get('account_streamline.ledger_type')
+        return obj.search(cr, uid, [], context=context) != []
+
     _columns = {
         'result_selection': fields.selection([('customer', 'Receivable Accounts'),
                                               ('supplier', 'Payable Accounts'),
@@ -36,17 +40,36 @@ class AccountPartnerBalanceWizard(orm.TransientModel):
                                               "Partner's", required=True),
         'partner_ids': fields.many2many('res.partner', string='Filter on partner',
                                          help="Only selected partners will be printed. Leave empty to print all partners."),
+        'ledger_type': fields.many2one(
+            'account_streamline.ledger_type',
+            string='Ledger type',
+            help='Ledger selection: only accounts defined for the selected'
+                 ' ledger will be printed; or accounts in the actual ledger'
+                 ' if this is left unselected.'
+        ),
+        'ledger_type_available': fields.boolean(
+            invisible=True
+        ),
+        'account_from': fields.char('From account', size=256),
+        'account_to': fields.char('To account', size=256),
     }
 
     _defaults = {
-        'result_selection': 'customer_supplier',
+        'result_selection': lambda *a: 'customer_supplier',
+        'ledger_type_available': _ledger_type_available,
     }
 
     def pre_print_report(self, cr, uid, ids, data, context=None):
-        data = super(AccountPartnerBalanceWizard, self).pre_print_report(cr, uid, ids, data, context)
-        vals = self.read(cr, uid, ids,
-                         ['result_selection', 'partner_ids'],
-                         context=context)[0]
+        data = super(AccountPartnerBalanceWizard, self).pre_print_report(
+            cr, uid, ids, data, context
+        )
+        vals = self.read(cr, uid, ids, [
+            'result_selection',
+            'partner_ids',
+            'ledger_type',
+            'account_from',
+            'account_to',
+        ], context=context)[0]
         data['form'].update(vals)
         return data
 
@@ -54,6 +77,8 @@ class AccountPartnerBalanceWizard(orm.TransientModel):
         # we update form with display account value
         data = self.pre_print_report(cursor, uid, ids, data, context=context)
 
-        return {'type': 'ir.actions.report.xml',
-                'report_name': 'account.account_report_partner_balance_webkit',
-                'datas': data}
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': 'account.account_report_partner_balance_webkit',
+            'datas': data
+        }

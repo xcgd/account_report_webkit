@@ -23,8 +23,12 @@
 from collections import defaultdict
 from operator import add
 
+from openerp.tools.translate import _
+
 from .common_balance_reports import CommonBalanceReportHeaderWebkit
 from .common_partner_reports import CommonPartnersReportHeaderWebkit
+
+from report_util import compare_ledger_types, should_show_account
 
 
 class CommonPartnerBalanceReportHeaderWebkit(CommonBalanceReportHeaderWebkit, CommonPartnersReportHeaderWebkit):
@@ -66,8 +70,8 @@ class CommonPartnerBalanceReportHeaderWebkit(CommonBalanceReportHeaderWebkit, Co
 
             # compute balance for the partner
             for partner_id, partner_details in details.iteritems():
-                details[partner_id]['balance'] = details[partner_id].get('init_balance', 0.0) +\
-                                                 details[partner_id].get('debit', 0.0) -\
+                details[partner_id]['balance'] = details[partner_id].get('init_balance', 0.0) + \
+                                                 details[partner_id].get('debit', 0.0) - \
                                                  details[partner_id].get('credit', 0.0)
             res[account_id] = details
 
@@ -226,11 +230,27 @@ class CommonPartnerBalanceReportHeaderWebkit(CommonBalanceReportHeaderWebkit, Co
                                                                                        index, partner_filter_ids=partner_ids)
                 comparison_params.append(comp_params)
                 comp_accounts_by_ids.append(comparison_result)
+
         objects = []
+
+        account_range_filter = (data['form']['account_from'] and
+                                data['form']['account_to'])
+        if account_range_filter:
+            account_range_filter = _('From %s to %s') % (
+                                     data['form']['account_from'],
+                                     data['form']['account_to'])
 
         for account in self.pool.get('account.account').browse(self.cursor, self.uid, account_ids):
             if not account.parent_id:  # hide top level account
                 continue
+
+            if not compare_ledger_types(account, data, self):
+                continue
+
+            if (account_range_filter and
+                not should_show_account(account, data)):
+                continue
+
             account.debit = accounts_by_ids[account.id]['debit']
             account.credit = accounts_by_ids[account.id]['credit']
             account.balance = accounts_by_ids[account.id]['balance']
@@ -271,6 +291,7 @@ class CommonPartnerBalanceReportHeaderWebkit(CommonBalanceReportHeaderWebkit, Co
             'comp_params': comparison_params,
             'initial_balance_mode': initial_balance_mode,
             'compute_diff': self._get_diff,
+            'account_range_filter': account_range_filter,
         }
 
         return objects, new_ids, context_report_values

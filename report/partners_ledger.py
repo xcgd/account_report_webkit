@@ -29,7 +29,7 @@ from openerp.tools.translate import _
 from .common_partner_reports import CommonPartnersReportHeaderWebkit
 from .webkit_parser_header_fix import HeaderFooterTextWebKitParser
 
-from report_util import should_show_account
+from report_util import compare_ledger_types, should_show_account
 
 
 class PartnersLedgerWebkit(report_sxw.rml_parse, CommonPartnersReportHeaderWebkit):
@@ -160,6 +160,9 @@ class PartnersLedgerWebkit(report_sxw.rml_parse, CommonPartnersReportHeaderWebki
         objects = []
 
         for account in self.pool.get('account.account').browse(self.cursor, self.uid, accounts):
+            if not compare_ledger_types(account, data, self):
+                continue
+
             if (account_range_filter and
                 not should_show_account(account, data)):
                 continue

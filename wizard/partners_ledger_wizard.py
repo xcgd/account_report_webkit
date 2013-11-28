@@ -30,6 +30,10 @@ class AccountReportPartnersLedgerWizard(orm.TransientModel):
     _name = "partners.ledger.webkit"
     _description = "Partner Ledger Report"
 
+    def _ledger_type_available(self, cr, uid, context=None):
+        obj = self.pool.get('account_streamline.ledger_type')
+        return obj.search(cr, uid, [], context=context) != []
+
     def _get_account_ids(self, cr, uid, context=None):
         return context['active_ids'] if (
             context.get('active_model', False) == 'account.account' and
@@ -37,13 +41,23 @@ class AccountReportPartnersLedgerWizard(orm.TransientModel):
         ) else False
 
     _columns = {
+        'ledger_type': fields.many2one(
+            'account_streamline.ledger_type',
+            string='Ledger type',
+            help='Ledger selection: only accounts defined for the selected'
+                 ' ledger will be printed; or accounts in the actual ledger'
+                 ' if this is left unselected.'
+        ),
+        'ledger_type_available': fields.boolean(
+            invisible=True
+        ),
         'amount_currency': fields.boolean("With Currency",
                                           help="It adds the currency column"),
         'account_ids': fields.many2many(
             'account.account',
             string='Filter on accounts',
             help='Only selected accounts will be printed. Leave empty to'
-            'print all accounts.'
+                 'print all accounts.'
         ),
         'account_from': fields.char('From account', size=256),
         'account_to': fields.char('To account', size=256),
@@ -56,7 +70,9 @@ class AccountReportPartnersLedgerWizard(orm.TransientModel):
                                    help='Filter by date: no opening balance will be displayed. '
                                         '(opening balance can only be computed based on period to be correct).'),
     }
+
     _defaults = {
+        'ledger_type_available': _ledger_type_available,
         'amount_currency': False,
         'account_ids': _get_account_ids,
         'result_selection': 'customer_supplier',
@@ -124,6 +140,7 @@ class AccountReportPartnersLedgerWizard(orm.TransientModel):
         # will be used to attach the report on the main account
         data['ids'] = [data['form']['chart_account_id']]
         vals = self.read(cr, uid, ids, [
+            'ledger_type',
             'amount_currency',
             'account_ids',
             'account_from',

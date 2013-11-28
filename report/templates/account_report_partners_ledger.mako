@@ -35,6 +35,7 @@
                     %endif
                 </div>
                 <div class="act_as_cell">${_('Accounts Filter')}</div>
+                <div class="act_as_cell">${_('Partners Filter')}</div>
                 <div class="act_as_cell">${_('Target Moves')}</div>
                 <div class="act_as_cell">${_('Initial Balance')}</div>
             </div>
@@ -53,6 +54,17 @@
                         ${ formatLang(stop_date, date=True) if stop_date else u'' }
                     %else:
                         ${stop_period.name if stop_period else u'' }
+                    %endif
+                </div>
+                <div class="act_as_cell">
+                	%if accounts(data):
+                        ${', '.join([account.code for account in accounts(data)])}
+                    %endif
+                    %if account_range_filter:
+                    	${account_range_filter}
+                	%endif
+                    %if not (accounts(data) or account_range_filter):
+                        ${_('All')}
                     %endif
                 </div>
                 <div class="act_as_cell">

@@ -57,7 +57,7 @@
                     %endif
                 </div>
                 <div class="act_as_cell">
-                %if accounts(data):
+                	%if accounts(data):
                         ${', '.join([account.code for account in accounts(data)])}
                     %endif
                     %if account_range_filter:

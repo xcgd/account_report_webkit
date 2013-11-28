@@ -79,7 +79,10 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
     def set_context(self, objects, data, ids, report_type=None):
         """Populate a ledger_lines attribute on each browse record that will be used
         by mako template"""
-        new_ids = data['form']['account_ids'] or data['form']['chart_account_id']
+        new_ids = (
+            data['form']['account_ids'] or
+            data['form']['chart_account_id']
+        )
 
         # Account initial balance memoizer
         init_balance_memoizer = {}
@@ -129,12 +132,15 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
                 self.cursor, self.uid, int(analytic_codes)).name
             analytic_groups = {}
 
-        account_range_filter = (data['form']['account_from'] and
-                                data['form']['account_to'])
+        account_range_filter = (
+            data['form']['account_from'] and
+            data['form']['account_to']
+        )
         if account_range_filter:
             account_range_filter = _('From %s to %s') % (
-                                     data['form']['account_from'],
-                                     data['form']['account_to'])
+                data['form']['account_from'],
+                data['form']['account_to']
+            )
 
         currency_filter = data['form']['currency_id']
         if currency_filter:

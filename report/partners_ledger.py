@@ -29,6 +29,8 @@ from openerp.tools.translate import _
 from .common_partner_reports import CommonPartnersReportHeaderWebkit
 from .webkit_parser_header_fix import HeaderFooterTextWebKitParser
 
+from report_util import should_show_account
+
 
 class PartnersLedgerWebkit(report_sxw.rml_parse, CommonPartnersReportHeaderWebkit):
 
@@ -53,6 +55,7 @@ class PartnersLedgerWebkit(report_sxw.rml_parse, CommonPartnersReportHeaderWebki
             'amount_currency': self._get_amount_currency,
             'display_partner_account': self._get_display_partner_account,
             'display_target_move': self._get_display_target_move,
+            'accounts': self._get_accounts_br,
             'additional_args': [
                 ('--header-font-name', 'Helvetica'),
                 ('--footer-font-name', 'Helvetica'),
@@ -79,7 +82,10 @@ class PartnersLedgerWebkit(report_sxw.rml_parse, CommonPartnersReportHeaderWebki
     def set_context(self, objects, data, ids, report_type=None):
         """Populate a ledger_lines attribute on each browse record that will be used
         by mako template"""
-        new_ids = data['form']['chart_account_id']
+        new_ids = (
+            data['form']['account_ids'] or
+            data['form']['chart_account_id']
+        )
 
         # account partner memoizer
         # Reading form
@@ -140,13 +146,29 @@ class PartnersLedgerWebkit(report_sxw.rml_parse, CommonPartnersReportHeaderWebki
                                                           start,
                                                           stop,
                                                           partner_filter=partner_ids)
+
+        account_range_filter = (
+            data['form']['account_from'] and
+            data['form']['account_to']
+        )
+        if account_range_filter:
+            account_range_filter = _('From %s to %s') % (
+                data['form']['account_from'],
+                data['form']['account_to']
+            )
+
         objects = []
+
         for account in self.pool.get('account.account').browse(self.cursor, self.uid, accounts):
+            if (account_range_filter and
+                not should_show_account(account, data)):
+                continue
+
             account.ledger_lines = ledger_lines.get(account.id, {})
             account.init_balance = initial_balance_lines.get(account.id, {})
-            ## we have to compute partner order based on inital balance
-            ## and ledger line as we may have partner with init bal
-            ## that are not in ledger line and vice versa
+            # # we have to compute partner order based on inital balance
+            # # and ledger line as we may have partner with init bal
+            # # that are not in ledger line and vice versa
             ledg_lines_pids = ledger_lines.get(account.id, {}).keys()
             if initial_balance_mode:
                 non_null_init_balances = dict([(ib, amounts) for ib, amounts in account.init_balance.iteritems()
@@ -168,6 +190,7 @@ class PartnersLedgerWebkit(report_sxw.rml_parse, CommonPartnersReportHeaderWebki
             'partner_ids': partner_ids,
             'chart_account': chart_account,
             'initial_balance_mode': initial_balance_mode,
+            'account_range_filter': account_range_filter,
         })
 
         return super(PartnersLedgerWebkit, self).set_context(objects, data, new_ids,

@@ -30,9 +30,23 @@ class AccountReportPartnersLedgerWizard(orm.TransientModel):
     _name = "partners.ledger.webkit"
     _description = "Partner Ledger Report"
 
+    def _get_account_ids(self, cr, uid, context=None):
+        return context['active_ids'] if (
+            context.get('active_model', False) == 'account.account' and
+            context.get('active_ids', False)
+        ) else False
+
     _columns = {
         'amount_currency': fields.boolean("With Currency",
                                           help="It adds the currency column"),
+        'account_ids': fields.many2many(
+            'account.account',
+            string='Filter on accounts',
+            help='Only selected accounts will be printed. Leave empty to'
+            'print all accounts.'
+        ),
+        'account_from': fields.char('From account', size=256),
+        'account_to': fields.char('To account', size=256),
         'partner_ids': fields.many2many('res.partner', string='Filter on partner',
                                          help="Only selected partners will be printed. "
                                               "Leave empty to print all partners."),
@@ -44,6 +58,7 @@ class AccountReportPartnersLedgerWizard(orm.TransientModel):
     }
     _defaults = {
         'amount_currency': False,
+        'account_ids': _get_account_ids,
         'result_selection': 'customer_supplier',
     }
 
@@ -101,14 +116,20 @@ class AccountReportPartnersLedgerWizard(orm.TransientModel):
         return res
 
     def pre_print_report(self, cr, uid, ids, data, context=None):
-        data = super(AccountReportPartnersLedgerWizard, self).pre_print_report(cr, uid, ids, data, context)
+        data = super(AccountReportPartnersLedgerWizard, self).pre_print_report(
+            cr, uid, ids, data, context
+        )
         if context is None:
             context = {}
         # will be used to attach the report on the main account
         data['ids'] = [data['form']['chart_account_id']]
-        vals = self.read(cr, uid, ids,
-                         ['amount_currency', 'partner_ids'],
-                         context=context)[0]
+        vals = self.read(cr, uid, ids, [
+            'amount_currency',
+            'account_ids',
+            'account_from',
+            'account_to',
+            'partner_ids'
+        ], context=context)[0]
         data['form'].update(vals)
         return data
 

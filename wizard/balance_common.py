@@ -147,10 +147,12 @@ class AccountBalanceCommonWizard(orm.TransientModel):
         if placeholder:
             placeholder = placeholder[0]
             for index in range(self.COMPARISON_LEVEL):
+                # Hide comparison pages for now...
                 page = etree.Element(
                     'page',
                     {'name': "comp%s" % index,
-                     'string': _("Comparison %s") % (index + 1, )})
+                     'string': _("Comparison %s") % (index + 1, ),
+                     'modifiers': '{"invisible": true}'})
                 group = etree.Element('group')
                 page.append(group)
 

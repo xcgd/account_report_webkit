@@ -474,6 +474,7 @@ SELECT l.id AS id,
             l.state,
             l.debit_curr,
             l.credit_curr,
+            m.internal_sequence_number,
             partialrec,
             fullrec,
             l.date_reconcile

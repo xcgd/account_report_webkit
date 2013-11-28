@@ -477,7 +477,12 @@ SELECT l.id AS id,
             m.internal_sequence_number,
             partialrec,
             fullrec,
-            l.date_reconcile
+            l.date_reconcile,
+            l.a1_id,
+            l.a2_id,
+            l.a3_id,
+            l.a4_id,
+            l.a5_id
 
 FROM account_move_line l
     JOIN account_move m on (l.move_id=m.id)

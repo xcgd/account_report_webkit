@@ -1,5 +1,5 @@
 def compare_ledger_types(account, data, orm):
-    if not hasattr(account, 'ledger_types'):
+    if not data['form']['ledger_type_available']:
         # Ignore this filter when alternate_ledger is not installed.
         return True
 

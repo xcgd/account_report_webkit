@@ -54,6 +54,7 @@ class AccountTrialBalanceWizard(orm.TransientModel):
         up_fields = [
             'analytic_codes',
             'ledger_type',
+            'ledger_type_available',
             'account_from',
             'account_to',
             'currency_id',

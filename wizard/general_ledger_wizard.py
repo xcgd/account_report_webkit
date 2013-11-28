@@ -205,6 +205,7 @@ class AccountReportGeneralLedgerWizard(orm.TransientModel):
             'analytic_codes',
             'allocated',
             'ledger_type',
+            'ledger_type_available',
             'account_from',
             'account_to',
             'currency_id',

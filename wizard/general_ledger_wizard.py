@@ -87,9 +87,6 @@ class AccountReportGeneralLedgerWizard(orm.TransientModel):
             'res.currency',
             string='Filter on currencies'
         ),
-        'include_zero': fields.boolean(
-            'Include accounts that have no transaction'
-        ),
     }
 
     _defaults = {
@@ -99,7 +96,6 @@ class AccountReportGeneralLedgerWizard(orm.TransientModel):
         'centralize': True,
         'allocated': lambda *a: 'all',
         'ledger_type_available': _ledger_type_available,
-        'include_zero': lambda *a: False,
     }
 
     def _check_fiscalyear(self, cr, uid, ids, context=None):
@@ -209,7 +205,6 @@ class AccountReportGeneralLedgerWizard(orm.TransientModel):
             'account_from',
             'account_to',
             'currency_id',
-            'include_zero'
         ]
         data['form'].update(
             self.read(cr, uid, ids, up_fields, context=context)[0]

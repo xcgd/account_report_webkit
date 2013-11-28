@@ -150,8 +150,6 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
             curr_name = curr_obj.browse(self.cursor, self.uid,
                 currency_filter).name
 
-        include_zero = data['form']['include_zero']
-
         objects = []
 
         for account in self.pool.get('account.account').browse(self.cursor, self.uid, accounts):
@@ -168,7 +166,7 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
                 account.ledger_lines = ledger_lines_memoizer.get(account.id, [])
             account.init_balance = init_balance_memoizer.get(account.id, {})
 
-            if not include_zero and not account.ledger_lines:
+            if not account.ledger_lines:
                 continue
 
             # New list of lines as we are going to filter some of them out.
@@ -194,8 +192,7 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
                 account.credit += line.get('credit_curr')
                 account.balance += line.get('debit_curr') - line.get('credit_curr')
 
-            if not include_zero and not any((
-                account.debit, account.credit, account.balance)):
+            if not any((account.debit, account.credit, account.balance)):
                 continue
 
             account.ledger_lines = new_lines

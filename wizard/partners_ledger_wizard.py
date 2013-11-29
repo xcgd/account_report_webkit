@@ -141,6 +141,7 @@ class AccountReportPartnersLedgerWizard(orm.TransientModel):
         data['ids'] = [data['form']['chart_account_id']]
         vals = self.read(cr, uid, ids, [
             'ledger_type',
+            'ledger_type_available',
             'amount_currency',
             'account_ids',
             'account_from',

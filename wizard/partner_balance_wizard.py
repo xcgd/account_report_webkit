@@ -67,6 +67,7 @@ class AccountPartnerBalanceWizard(orm.TransientModel):
             'result_selection',
             'partner_ids',
             'ledger_type',
+            'ledger_type_available',
             'account_from',
             'account_to',
         ], context=context)[0]

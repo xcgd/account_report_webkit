@@ -120,8 +120,9 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
         elif initial_balance_mode == 'opening_balance':
             init_balance_memoizer = self._read_opening_balance(accounts, start)
 
-        ledger_lines_memoizer = self._compute_account_ledger_lines(accounts, init_balance_memoizer,
-                                                                   main_filter, target_move, start, stop)
+        ledger_lines_memoizer = self.compute_account_ledger_lines(
+            accounts, main_filter, target_move, start, stop
+        )
 
         allocated = data['form']['allocated']
 
@@ -161,7 +162,9 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
                 continue
 
             if do_centralize and account.centralized and ledger_lines_memoizer.get(account.id):
-                account.ledger_lines = self._centralize_lines(main_filter, ledger_lines_memoizer.get(account.id, []))
+                account.ledger_lines = self.centralize_lines(
+                    main_filter, ledger_lines_memoizer.get(account.id, [])
+                )
             else:
                 account.ledger_lines = ledger_lines_memoizer.get(account.id, [])
             account.init_balance = init_balance_memoizer.get(account.id, {})
@@ -190,7 +193,10 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
 
                 account.debit += line.get('debit_curr')
                 account.credit += line.get('credit_curr')
-                account.balance += line.get('debit_curr') - line.get('credit_curr')
+                account.balance += (
+                    line.get('debit_curr') -
+                    line.get('credit_curr')
+                )
 
             if not any((account.debit, account.credit, account.balance)):
                 continue
@@ -242,74 +248,6 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
 
         return super(GeneralLedgerWebkit, self).set_context(objects, data, new_ids,
                                                             report_type=report_type)
-
-    def _centralize_lines(self, filter, ledger_lines, context=None):
-        """ Group by period in filter mode 'period' or on one line in filter mode 'date'
-            ledger_lines parameter is a list of dict built by _get_ledger_lines"""
-        def group_lines(lines):
-            if not lines:
-                return {}
-            sums = reduce(lambda line, memo: dict((key, value + memo[key]) for key, value
-            in line.iteritems() if key in ('balance', 'debit', 'credit')), lines)
-
-            res_lines = {
-                'balance': sums['balance'],
-                'debit': sums['debit'],
-                'credit': sums['credit'],
-                'lname': _('Centralized Entries'),
-                'account_id': lines[0]['account_id'],
-            }
-            return res_lines
-
-        centralized_lines = []
-        if filter == 'filter_date':
-            # by date we centralize all entries in only one line
-            centralized_lines.append(group_lines(ledger_lines))
-
-        else:  # by period
-            # by period we centralize all entries in one line per period
-            period_obj = self.pool.get('account.period')
-            # we need to sort the lines per period in order to use groupby
-            # unique ids of each used period id in lines
-            period_ids = list(set([line['lperiod_id'] for line in ledger_lines]))
-            # search on account.period in order to sort them by date_start
-            sorted_period_ids = period_obj.search(self.cr, self.uid,
-                                                  [('id', 'in', period_ids)],
-                                                  order='special desc, date_start',
-                                                  context=context)
-            sorted_ledger_lines = sorted(ledger_lines, key=lambda x: sorted_period_ids.index(x['lperiod_id']))
-
-            for period_id, lines_per_period_iterator in groupby(sorted_ledger_lines, itemgetter('lperiod_id')):
-                lines_per_period = list(lines_per_period_iterator)
-                if not lines_per_period:
-                    continue
-                group_per_period = group_lines(lines_per_period)
-                group_per_period.update({
-                    'lperiod_id': period_id,
-                    'period_code': lines_per_period[0]['period_code'],  # period code is anyway the same on each line per period
-                })
-                centralized_lines.append(group_per_period)
-
-        return centralized_lines
-
-    def _compute_account_ledger_lines(self, accounts_ids, init_balance_memoizer, main_filter,
-                                      target_move, start, stop):
-        res = {}
-        for acc_id in accounts_ids:
-            move_line_ids = self.get_move_lines_ids(acc_id, main_filter, start, stop, target_move)
-            if not move_line_ids:
-                res[acc_id] = []
-                continue
-
-            lines = self._get_ledger_lines(move_line_ids, acc_id)
-            res[acc_id] = lines
-        return res
-
-    def _get_ledger_lines(self, move_line_ids, account_id):
-        if not move_line_ids:
-            return []
-        res = self._get_move_line_datas(move_line_ids)
-        return res
 
     def _check_allocated(self, account, line, allocated):
         if allocated == 'all':

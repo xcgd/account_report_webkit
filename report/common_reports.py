@@ -285,7 +285,7 @@ class CommonReportHeaderWebkit(common_report_header):
                     opening_period_id = opening_period
                     break
             if opening_period_id:
-                #we also look for overlapping periods
+                # we also look for overlapping periods
                 opening_period_br = period_obj.browse(self.cursor, self.uid, opening_period_id)
                 past_limit = [('date_start', '>=', opening_period_br.date_stop)]
 
@@ -427,6 +427,91 @@ class CommonReportHeaderWebkit(common_report_header):
 
         return move_line_obj.search(self.cursor, self.uid, search_period)
 
+    def centralize_lines(self, filter, ledger_lines, context=None):
+        """Group by period in filter mode 'period' or on one line in filter
+        mode 'date' ledger_lines parameter is a list of dict built by
+        _get_ledger_lines.
+        """
+
+        def group_lines(lines):
+            if not lines:
+                return {}
+            sums = reduce(lambda line, memo: dict(
+                (key, value + memo[key])
+                for key, value in line.iteritems()
+                if key in ('balance', 'debit', 'credit')
+            ), lines)
+
+            res_lines = {
+                'balance': sums['balance'],
+                'debit': sums['debit'],
+                'credit': sums['credit'],
+                'lname': _('Centralized Entries'),
+                'account_id': lines[0]['account_id'],
+            }
+            return res_lines
+
+        centralized_lines = []
+        if filter == 'filter_date':
+            # by date we centralize all entries in only one line
+            centralized_lines.append(group_lines(ledger_lines))
+
+        else:  # by period
+            # by period we centralize all entries in one line per period
+            period_obj = self.pool.get('account.period')
+            # we need to sort the lines per period in order to use groupby
+            # unique ids of each used period id in lines
+            period_ids = list(set([line['lperiod_id'] for line in ledger_lines]))
+            # search on account.period in order to sort them by date_start
+            sorted_period_ids = period_obj.search(
+                self.cr, self.uid,
+                [('id', 'in', period_ids)],
+                order='special desc, date_start',
+                context=context
+            )
+            sorted_ledger_lines = sorted(
+                ledger_lines,
+                key=lambda x: sorted_period_ids.index(x['lperiod_id'])
+            )
+
+            for period_id, lines_per_period_iterator in (
+                groupby(sorted_ledger_lines, itemgetter('lperiod_id'))
+            ):
+                lines_per_period = list(lines_per_period_iterator)
+                if not lines_per_period:
+                    continue
+                group_per_period = group_lines(lines_per_period)
+                group_per_period.update({
+                    'lperiod_id': period_id,
+                    # period code is anyway the same on each line per period
+                    'period_code': lines_per_period[0]['period_code'],
+                })
+                centralized_lines.append(group_per_period)
+
+        return centralized_lines
+
+    def compute_account_ledger_lines(
+        self, accounts_ids, main_filter, target_move, start, stop
+    ):
+        res = {}
+        for acc_id in accounts_ids:
+            move_line_ids = self.get_move_lines_ids(
+                acc_id, main_filter, start, stop, target_move
+            )
+            if not move_line_ids:
+                res[acc_id] = []
+                continue
+
+            lines = self._get_ledger_lines(move_line_ids, acc_id)
+            res[acc_id] = lines
+        return res
+
+    def _get_ledger_lines(self, move_line_ids, account_id):
+        if not move_line_ids:
+            return []
+        res = self._get_move_line_datas(move_line_ids)
+        return res
+
     def get_move_lines_ids(self, account_id, main_filter, start, stop, target_move, mode='include_opening'):
         """Get account move lines base on form data"""
         if mode not in ('include_opening', 'exclude_opening'):
@@ -532,7 +617,7 @@ WHERE move_id in %s"""
 
     def is_initial_balance_enabled(self, main_filter):
         # Always disable the "initial balance" feature as various filters may
-        # have been applied. 
+        # have been applied.
         return False
 #         if main_filter not in ('filter_no', 'filter_year', 'filter_period'):
 #             return False

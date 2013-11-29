@@ -255,18 +255,18 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
 
         currency_filter = data['form']['currency_id']
         if currency_filter:
-            aml_obj = self.pool.get('account.move.line')
+            currency_filter = currency_filter[0]
+
             curr_obj = self.pool.get('res.currency')
-
-            curr_domain = [('currency_id', '=', currency_filter[0])]
-            if data['form']['target_move'] != 'posted':
-                curr_domain.extend(['|', ('move_id.state', '=', 'draft')])
-            curr_domain.append(('move_id.state', '=', 'posted'))
-
-            self.context = {}  # TODO
-
             curr_name = curr_obj.browse(self.cursor, self.uid,
-                currency_filter[0]).name
+                currency_filter).name
+
+            # By default balances use the debit/credit values stored on account
+            # objects; however, when a currency is selected, we have to retrieve
+            # move-lines to only sum those we need.
+            ledger_lines_memoizer = self.compute_account_ledger_lines(
+                account_ids, main_filter, target_move, start, stop
+            )
 
         include_zero = data['form']['include_zero']
 
@@ -309,7 +309,12 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
                 display_account = display_account or any((
                     account.debit, account.credit, account.balance,
                     account.init_balance))
-            to_display.update({account.id: display_account and to_display[account.id]})
+            to_display.update({
+                account.id: (
+                    display_account and
+                    to_display[account.id]
+                )
+            })
 
             if currency_filter:
                 account.debit = 0.0
@@ -317,22 +322,17 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
                 account.balance = 0.0
                 account.init_balance = 0.0
 
-                domain = [('account_id', '=', account.id)]
-                domain.extend(curr_domain)
-
-                line_ids = aml_obj.search(self.cursor, self.uid,
-                    domain, context=self.context)
-                line_entries = aml_obj.browse(self.cursor, self.uid,
-                    line_ids, context=self.context)
-
-                for line_entry in line_entries:
-                    account.debit += line_entry.debit_curr
-                    account.credit += line_entry.credit_curr
-                    account.balance += line_entry.debit_curr - line_entry.credit_curr
+                for line_entry in ledger_lines_memoizer.get(account.id, []):
+                    account.debit += line_entry.get('debit_curr')
+                    account.credit += line_entry.get('credit_curr')
+                    account.balance += (
+                        line_entry.get('debit_curr') -
+                        line_entry.get('credit_curr')
+                    )
 
                 if not include_zero and not any((
                     account.debit, account.credit, account.balance)):
-                    to_display.update({ account.id: False })
+                    to_display.update({account.id: False})
 
             if analytic_codes:
                 a_code = account[analytic_field]
@@ -344,7 +344,7 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
                         analytic_groups[a_code.id] = account
 
                         if include_zero:
-                            to_display.update({ account.id: True })
+                            to_display.update({account.id: True})
                     else:
                         a_row = analytic_groups[a_code.id]
                         a_row.debit += account.debit
@@ -353,7 +353,7 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
 
                     if not include_zero and not any((
                         account.debit, account.credit, account.balance)):
-                        to_display.update({ account.id: False })
+                        to_display.update({account.id: False})
 
             else:
                 objects.append(account)

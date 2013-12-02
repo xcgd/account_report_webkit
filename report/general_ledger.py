@@ -29,7 +29,11 @@ from openerp.tools.translate import _
 from .common_reports import CommonReportHeaderWebkit
 from .webkit_parser_header_fix import HeaderFooterTextWebKitParser
 
-from report_util import compare_ledger_types, should_show_account
+from report_util import (
+    compare_ledger_types,
+    should_show_account,
+    should_show_line
+)
 
 
 class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
@@ -47,7 +51,7 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
         self.cursor = self.cr
 
         company = self.pool.get('res.users').browse(self.cr, uid, uid, context=context).company_id
-        header_report_name = ' - '.join((_('GENERAL LEDGER'), company.name, company.currency_id.name))
+        header_report_name = ' - '.join((_('GENERAL LEDGER'), company.name))
 
         footer_date_time = self.formatLang(str(datetime.today()), date_time=True)
 
@@ -185,8 +189,7 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
                 if not self._check_allocated(account, line, allocated):
                     continue
 
-                if (currency_filter and
-                    line.get('currency_id') != currency_filter):
+                if not should_show_line(line, currency_filter):
                     continue
 
                 new_lines.append(line)

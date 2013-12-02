@@ -41,7 +41,7 @@ class TrialBalanceWebkit(report_sxw.rml_parse, CommonBalanceReportHeaderWebkit):
         self.cursor = self.cr
 
         company = self.pool.get('res.users').browse(self.cr, uid, uid, context=context).company_id
-        header_report_name = ' - '.join((_('TRIAL BALANCE'), company.name, company.currency_id.name))
+        header_report_name = ' - '.join((_('TRIAL BALANCE'), company.name))
 
         footer_date_time = self.formatLang(str(datetime.today()), date_time=True)
 

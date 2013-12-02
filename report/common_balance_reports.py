@@ -25,7 +25,11 @@ from operator import add
 from openerp.tools.translate import _
 from .common_reports import CommonReportHeaderWebkit
 
-from report_util import compare_ledger_types, should_show_account
+from report_util import (
+    compare_ledger_types,
+    should_show_account,
+    should_show_line
+)
 
 
 class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
@@ -323,6 +327,9 @@ class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
                 account.init_balance = 0.0
 
                 for line_entry in ledger_lines_memoizer.get(account.id, []):
+                    if not should_show_line(line_entry, currency_filter):
+                        continue
+
                     account.debit += line_entry.get('debit_curr')
                     account.credit += line_entry.get('credit_curr')
                     account.balance += (

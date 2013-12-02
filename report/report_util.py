@@ -20,3 +20,10 @@ def should_show_account(account, data):
     high = data['form']['account_to']
 
     return low <= account.code <= high
+
+
+def should_show_line(line, currency_filter):
+    return (
+        not currency_filter or
+        line.get('currency_id') == currency_filter
+    )

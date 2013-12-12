@@ -184,7 +184,7 @@ msgstr "Compte"
 #: code:addons/account_report_webkit/report/trial_balance.py:44
 #, python-format
 msgid "TRIAL BALANCE"
-msgstr "BALANCE GÉNÉRALE"
+msgstr "BALANCE GENERALE"
 
 #. module: account_report_webkit
 #: report:addons/account_report_webkit/report/templates/account_report_print_journal.mako:84

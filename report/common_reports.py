@@ -616,12 +616,9 @@ WHERE move_id in %s"""
         return res and dict(res) or {}
 
     def is_initial_balance_enabled(self, main_filter):
-        # Always disable the "initial balance" feature as various filters may
-        # have been applied.
-        return False
-#         if main_filter not in ('filter_no', 'filter_year', 'filter_period'):
-#             return False
-#         return True
+         if main_filter not in ('filter_no', 'filter_year', 'filter_period'):
+             return False
+         return True
 
     def _get_initial_balance_mode(self, start_period):
         opening_period_selected = self.get_included_opening_period(start_period)

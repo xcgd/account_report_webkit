@@ -140,10 +140,6 @@
                     ## account name
                     <div class="act_as_cell" style="width: 80px;">${_('Account')}</div>
                     %if comparison_mode == 'no_comparison':
-                        %if initial_balance_mode:
-                            ## initial balance
-                            <div class="act_as_cell amount" style="width: 30px;">${_('Initial Balance')}</div>
-                        %endif
                         ## debit
                         <div class="act_as_cell amount" style="width: 30px;">${_('Debit')}</div>
                         ## credit
@@ -205,10 +201,6 @@
                         <% name_padding = 5 if analytic_codes else level * 5 %>
                         <div class="act_as_cell" style="padding-left: ${name_padding}px;">${current_account.name}</div>
                         %if comparison_mode == 'no_comparison':
-                            %if initial_balance_mode:
-                                ## opening balance
-                                <div class="act_as_cell amount">${formatLang(current_account.init_balance) | amount}</div>
-                            %endif
                             ## debit
                             <div class="act_as_cell amount">${formatLang(current_account.debit) | amount}</div>
                             ## credit

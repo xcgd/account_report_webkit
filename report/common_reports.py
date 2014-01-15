@@ -23,12 +23,10 @@
 # By using properties we will have a more simple signature in fuctions
 
 
-# advanced_balance: This file has been copied from
+# account_report_webkit: This file has been copied from
 # account_financial_report_webkit. It contains modifications for this module:
 # - In _get_move_line_datas, modify the "monster" SQL query to retrieve more
 #   information.
-# - In is_initial_balance_enabled, always disable the feature (see comment in
-#   the function).
 
 
 import logging

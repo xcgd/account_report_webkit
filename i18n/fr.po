@@ -1117,7 +1117,7 @@ msgstr "Écritures journaux"
 #: field:general.ledger.webkit,analytic_codes:0
 #: field:trial.balance.webkit,analytic_codes:0
 msgid "Ouput element"
-msgstr "Élement de sortie"
+msgstr "Élément de sortie"
 
 #. module: account_report_webkit
 #: code:addons/account_report_webkit/report/common_reports.py:518

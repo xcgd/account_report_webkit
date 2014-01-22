@@ -163,8 +163,15 @@
                       %endif
                       %for line in account.ledger_lines:
                         <%
-                        cumul_debit += line.get('debit') or 0.0
-                        cumul_credit += line.get('credit') or 0.0
+                        if currency_filter:
+                            line_debit = line.get('debit_curr', 0.0)
+                            line_credit = line.get('credit_curr', 0.0)
+                        else:
+                            line_debit = line.get('debit', 0.0)
+                            line_credit = line.get('credit', 0.0)
+
+                        cumul_debit += line_debit
+                        cumul_credit += line_credit
                         cumul_balance_curr += line.get('amount_currency') or 0.0
                         cumul_balance += line.get('balance') or 0.0
                         label_elements = [line.get('lname') or '']
@@ -189,9 +196,9 @@
                           ## label
                           <div class="act_as_cell">${label}</div>
                           ## debit
-                          <div class="act_as_cell amount">${ formatLang(line.get('debit', 0.0)) | amount }</div>
+                          <div class="act_as_cell amount">${ formatLang(line_debit) | amount }</div>
                           ## credit
-                          <div class="act_as_cell amount">${ formatLang(line.get('credit', 0.0)) | amount }</div>
+                          <div class="act_as_cell amount">${ formatLang(line_credit) | amount }</div>
                           %if amount_currency(data):
                               ## currency balance
                               <div class="act_as_cell amount sep_left">${formatLang(line.get('amount_currency') or 0.0)  | amount }</div>

@@ -75,17 +75,6 @@
             <field name="target">new</field>
         </record>
 
-        <record model="ir.values" id="action_account_print_journal_values_webkit">
-            <field name="model_id" ref="account.model_account_account"/>
-            <field name="object" eval="1"/>
-            <field name="name">Journals</field>
-            <field name="key2">client_print_multi</field>
-            <field name="value"
-                eval="'ir.actions.act_window,' +str(ref('action_account_print_journal_menu_webkit'))"/>
-            <field name="key">action</field>
-            <field name="model">account.journal.period</field>
-        </record>
-
         <record id="action_account_print_journal_sale_purchase_menu_webkit" model="ir.actions.act_window">
             <field name="name">Journals</field>
             <field name="type">ir.actions.act_window</field>

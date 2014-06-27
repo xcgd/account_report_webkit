@@ -121,6 +121,7 @@ Other improvements:
     'website': '',
     'depends': [
         'account_streamline',
+        'analytic_structure',
         'report_webkit',
     ],
     'init_xml': [],

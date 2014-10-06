@@ -97,14 +97,8 @@ period). The opening period is assumed to be the Jan. 1st of the year
 with an opening flag and the first period of the year must start also
 on Jan 1st.
 
-Totals for amounts in currencies are effective if the partner belongs to
-an account with a secondary currency.
-
-HTML headers and footers are deactivated for these reports because of
-an issue in wkhtmltopdf
-(http://code.google.com/p/wkhtmltopdf/issues/detail?id=656) Instead,
-the header and footer are created as text with arguments passed to
-wkhtmltopdf. The texts are defined inside the report classes.
+NEW in 2.0
+Make sure you installed  wkhtmltopdf > 0.12 which is based on QT5 and therefore fix several bugs on headers
 
 Other improvements:
 -------------------
@@ -114,7 +108,7 @@ Other improvements:
  - Filter by ledger type.
  - Group by analytic codes.
     ''',
-    'version': '1.3.1',
+    'version': '2.0.0',
     'author': 'XCG Consulting',
     'license': 'AGPL-3',
     'category': 'Finance',

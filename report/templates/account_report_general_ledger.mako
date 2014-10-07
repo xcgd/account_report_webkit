@@ -116,6 +116,7 @@
                         <div class="act_as_cell amount" style="width: 75px;">${_('Debit')}</div>
                         ## credit
                         <div class="act_as_cell amount" style="width: 75px;">${_('Credit')}</div>
+                        <div class="act_as_cell amount" style="width: 75px;">${_('Solde')}</div>
                         %if amount_currency(data):
                             ## currency balance
                             <div class="act_as_cell amount sep_left" style="width: 75px;">${_('Curr. Balance')}</div>
@@ -217,6 +218,8 @@
                         <div class="act_as_cell amount" style="width: 75px;">${ formatLang(cumul_debit) | amount }</div>
                         ## credit
                         <div class="act_as_cell amount" style="width: 75px;">${ formatLang(cumul_credit) | amount }</div>
+                        ## balance
+                        <div class="act_as_cell amount" style="width: 75px;">${ formatLang(cumul_balance) | amount }</div>
                         %if amount_currency(data):
                             %if account.currency_id:
                                 ## currency balance

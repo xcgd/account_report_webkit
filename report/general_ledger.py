@@ -183,7 +183,6 @@ class GeneralLedgerWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
             account.debit = 0.0
             account.credit = 0.0
             account.balance = 0.0
-            account.init_balance = 0.0
 
             for line in account.ledger_lines:
                 if not self._check_allocated(account, line, allocated):

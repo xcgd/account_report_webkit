@@ -228,6 +228,12 @@
                             <div class="act_as_cell amount" style="width: 30px; text-align: right;"></div>
                         %endif # currency
                     </div>
+                    <div class="act_as_row labels" style="font-weight: bold;">
+                        <div class="act_as_cell first_column" style="width: 350px;"></div>
+                        <div class="act_as_cell" style="width: 440px; text-align: right; padding-right: 20px;">${_("Balance")}</div>
+                        <div class="act_as_cell amount" style="width: 75px;"></div>
+                        <div class="act_as_cell amount" style="width: 75px;">${ formatLang(cumul_balance) | amount }</div>
+                    </div>
                 </div>
             </div>
           %endif

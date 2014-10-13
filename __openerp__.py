@@ -114,7 +114,7 @@ Other improvements:
  - Filter by ledger type.
  - Group by analytic codes.
     ''',
-    'version': '1.3.1',
+    'version': '1.3.2',
     'author': 'XCG Consulting',
     'license': 'AGPL-3',
     'category': 'Finance',

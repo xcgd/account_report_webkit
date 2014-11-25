@@ -1,0 +1,6 @@
+From 1.3 to 1.3.2
+
+- Add dependency to Analytic structure.
+- Upgrade wkhtmltopdf > 0.12 to generate reports.
+- Added additional row for total balance on general ledger template.
+

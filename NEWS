@@ -1,6 +1,13 @@
-From 1.3 to 1.3.2
+account_report_webkit 1.3.2
 
-- Add dependency to Analytic structure.
+∅
+
+account_report_webkit 1.3.1
+
+∅
+
+account_report_webkit 1.3
+
 - Upgrade wkhtmltopdf > 0.12 to generate reports.
+- Add dependency to Analytic structure.
 - Added additional row for total balance on general ledger template.
-

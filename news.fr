@@ -1,0 +1,13 @@
+account_report_webkit 1.3.2
+
+∅
+
+account_report_webkit 1.3.1
+
+∅
+
+account_report_webkit 1.3
+
+- Mise à jour de wkhtmltopdf > 0.12 afin d'améliorer les rapports.
+- Ajout d'une dépendance à analytque structure.
+- Ajout d'une rangée supplémentaire pour le solde total sur le template du grand livre général.

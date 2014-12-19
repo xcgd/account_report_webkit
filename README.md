@@ -3,7 +3,8 @@
 
 ### Accounting Reports Odoo/OpenERP Webkit ###
 
-* Based on Camp To Camp , this module adds or replaces the following standard OpenERP financial reports:
+* Based on Camp To Camp : http://bazaar.launchpad.net/~camptocamp/c2c-financial-addons/trunk/files/head:/account_financial_report_webkit/
+This module adds or replaces the following standard OpenERP financial reports:
 
 *	 - General ledger
 *	 - Trial Balance (simple or comparative view)

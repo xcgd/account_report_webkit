@@ -20,10 +20,10 @@
 #
 ##############################################################################
 
-from . import balance_common
-from . import general_ledger_wizard
-from . import partners_ledger_wizard
-from . import trial_balance_wizard
-from . import partner_balance_wizard
-from . import open_invoices_wizard
-from . import print_journal
+import balance_common
+import general_ledger_wizard
+import partners_ledger_wizard
+import trial_balance_wizard
+import partner_balance_wizard
+import open_invoices_wizard
+import print_journal

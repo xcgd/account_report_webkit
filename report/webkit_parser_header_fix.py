@@ -27,22 +27,10 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ##############################################################################
-import os
-import subprocess
-import tempfile
-import time
-import pooler
-import tools
 import logging
 
 
-from mako import exceptions
-from openerp.osv.osv import except_osv
-from openerp.tools.translate import _
-from openerp import addons
 from openerp.addons.report_webkit import webkit_report
-from openerp.addons.report_webkit.webkit_report import mako_template
-from openerp.addons.report_webkit.report_helper import WebKitHelper
 
 _logger = logging.getLogger('financial.reports.webkit')
 

@@ -20,7 +20,6 @@
 ##############################################################################
 
 from collections import defaultdict
-from report import report_sxw
 from datetime import datetime
 from itertools import groupby
 from operator import itemgetter
@@ -29,6 +28,7 @@ from mako.template import Template
 
 import openerp.addons
 from openerp import pooler
+from openerp.report import report_sxw
 from openerp.osv import osv
 from openerp.tools.translate import _
 from openerp.addons.report_webkit import report_helper

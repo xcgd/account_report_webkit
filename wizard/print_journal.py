@@ -22,8 +22,7 @@
 #
 ##############################################################################
 
-from osv import osv
-from osv import fields
+from openerp.osv import osv, fields
 import time
 from lxml import etree
 

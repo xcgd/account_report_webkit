@@ -20,7 +20,9 @@ set in a System Parameter `webkit_path`).
 
 ### Main improvements per report ###
 
-General ledger: details of all entries posted in your books sorted by account.
+####General ledger#####
+
+details of all entries posted in your books sorted by account.
 
 * Filter by account is available in the wizard (no need to go to the
   Chart of Accounts to do this anymore) or by View account (the report
@@ -43,9 +45,10 @@ General ledger: details of all entries posted in your books sorted by account.
   reports (we have removed the journal tab for the GL report)
 * improved report style
 
-Partner ledger: details of entries relative to payable &
-receivable accounts posted in your books sorted by account and
-partner.
+#####Partner ledger#####
+
+details of entries relative to payable & receivable accounts
+ posted in your books sorted by account and partner.
 
 * Filter by partner now available
 * Now you can see Accounts then Partner with subtotals for each
@@ -58,7 +61,9 @@ partner.
 * Subtotal by account
 * Alphabetical sorting (same as in partner balance)
 
-Open invoice report : other version of the partner ledger showing
+#####Open invoice report#####
+
+other version of the partner ledger showing
 unreconciled / partially reconciled entries.
 
 * Possibility to print unreconciled transactions only at any date in
@@ -68,7 +73,9 @@ unreconciled / partially reconciled entries.
 * no initial balance computed because the report shows open invoices
   from previous years.
 
-Trial balance: list of accounts with balances
+#####Trial balance#####
+
+list of accounts with balances
 
 * You can either see the columns: initial balance, debit, credit,
   end balance or compare balances over 4 periods of your choice
@@ -80,7 +87,9 @@ Trial balance: list of accounts with balances
 * If you compare 2 periods, you will get the differences in values and
   in percent
 
-The Partner balance: list of account with balances
+#####Partner balance#####
+
+list of account with balances
 
 * Subtotal by account and partner
 * Alphabetical sorting (same as in partner balance)

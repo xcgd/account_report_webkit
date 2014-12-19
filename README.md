@@ -3,24 +3,24 @@
 
 ### Accounting Reports Odoo/OpenERP Webkit ###
 
-* Based on Camp To Camp : http://bazaar.launchpad.net/~camptocamp/c2c-financial-addons/trunk/files/head:/account_financial_report_webkit/
-* This module adds or replaces the following standard OpenERP financial reports:
+Based on [Camp To Camp previous work](http://bazaar.launchpad.net/~camptocamp/c2c-financial-addons/trunk/files/head:/account_financial_report_webkit/)
+This module adds or replaces the following standard OpenERP financial reports:
 
-*	 - General ledger
-*	 - Trial Balance (simple or comparative view)
-*	 - Partner ledger
-*	 - Partner balance
-*	 - Open invoices report
+ * General ledger
+ * Trial Balance (simple or comparative view)
+ * Partner ledger
+ * Partner balance
+ * Open invoices report
 
 ### Requirements ###
 
-* In order to run properly this module makes sure you have installed the
-  library `wkhtmltopdf` for the pdf rendering (the library path must be
-  set in a System Parameter `webkit_path`).
+In order to run properly this module makes sure you have installed the
+library `wkhtmltopdf` for the pdf rendering (the library path must be
+set in a System Parameter `webkit_path`).
 
 ### Main improvements per report ###
 
-The General ledger: details of all entries posted in your books sorted by account.
+General ledger: details of all entries posted in your books sorted by account.
 
 * Filter by account is available in the wizard (no need to go to the
   Chart of Accounts to do this anymore) or by View account (the report
@@ -43,7 +43,7 @@ The General ledger: details of all entries posted in your books sorted by accoun
   reports (we have removed the journal tab for the GL report)
 * improved report style
 
-The partner ledger: details of entries relative to payable &
+Partner ledger: details of entries relative to payable &
 receivable accounts posted in your books sorted by account and
 partner.
 
@@ -68,7 +68,7 @@ unreconciled / partially reconciled entries.
 * no initial balance computed because the report shows open invoices
   from previous years.
 
-The Trial balance: list of accounts with balances
+Trial balance: list of accounts with balances
 
 * You can either see the columns: initial balance, debit, credit,
   end balance or compare balances over 4 periods of your choice

@@ -32,6 +32,7 @@
 import logging
 
 from openerp.osv import osv
+from openerp.exceptions import Warning
 from openerp.tools.translate import _
 from openerp.addons.account.report.common_report_header import common_report_header
 
@@ -318,7 +319,7 @@ class CommonReportHeaderWebkit(common_report_header):
                                  limit=1,
                                  order='date_start %s' % (order,))
         if not p_id:
-            raise osv.except_osv(_('No period found'), '')
+            raise Warning(_('No period found'), '')
         return period_obj.browse(self.cursor, self.uid, p_id[0])
 
     ####################Initial Balance helper #################################
@@ -356,7 +357,7 @@ class CommonReportHeaderWebkit(common_report_header):
         """
         opening_period_selected = self.get_included_opening_period(start_period)
         if not opening_period_selected:
-            raise osv.except_osv(
+            raise Warning(
                     _('Error'),
                     _('No opening period found to compute the opening balances.\n'
                       'You have to configure a period on the first of January'
@@ -513,7 +514,7 @@ class CommonReportHeaderWebkit(common_report_header):
     def get_move_lines_ids(self, account_id, main_filter, start, stop, target_move, mode='include_opening'):
         """Get account move lines base on form data"""
         if mode not in ('include_opening', 'exclude_opening'):
-            raise osv.except_osv(_('Invalid query mode'), _('Must be in include_opening, exclude_opening'))
+            raise Warning(_('Invalid query mode'), _('Must be in include_opening, exclude_opening'))
 
         if main_filter in ('filter_period', 'filter_no'):
             return self._get_move_ids_from_periods(account_id, start, stop, target_move)
@@ -521,7 +522,7 @@ class CommonReportHeaderWebkit(common_report_header):
         elif main_filter == 'filter_date':
             return self._get_move_ids_from_dates(account_id, start, stop, target_move)
         else:
-            raise osv.except_osv(_('No valid filter'), _('Please set a valid time filter'))
+            raise Warning(_('No valid filter'), _('Please set a valid time filter'))
 
     def _get_move_line_datas(self, move_line_ids, order='per.special DESC, l.date ASC, per.date_start ASC, m.name ASC'):
         if not move_line_ids:

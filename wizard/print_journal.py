@@ -27,7 +27,7 @@ import time
 from lxml import etree
 
 
-class AccountReportPrintJournalWizard(osv.osv_memory):
+class AccountReportPrintJournalWizard(osv.TransientModel):
     """Will launch print journal report and pass requiered args"""
 
     _inherit = "account.common.account.report"

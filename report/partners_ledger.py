@@ -23,6 +23,7 @@ from collections import defaultdict
 from datetime import datetime
 
 from openerp import pooler
+from openerp.exceptions import Warning
 from openerp.osv import osv
 from openerp.report import report_sxw
 from openerp.tools.translate import _
@@ -115,7 +116,7 @@ class PartnersLedgerWebkit(report_sxw.rml_parse, CommonPartnersReportHeaderWebki
                                          only_type=filter_type)
 
         if not accounts:
-            raise osv.except_osv(_('Error'), _('No accounts to print.'))
+            raise Warning(_('Error'), _('No accounts to print.'))
 
         if main_filter == 'filter_date':
             start = start_date

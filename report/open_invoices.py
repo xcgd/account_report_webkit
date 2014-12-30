@@ -29,6 +29,7 @@ from mako.template import Template
 
 import openerp.addons
 from openerp import pooler
+from openerp.exceptions import Warning
 from openerp.osv import osv
 from openerp.tools.translate import _
 from openerp.addons.report_webkit import report_helper
@@ -124,7 +125,7 @@ class PartnersOpenInvoicesWebkit(report_sxw.rml_parse, CommonPartnersReportHeade
         account_ids = self.get_all_accounts(new_ids, exclude_type=['view'], only_type=filter_type)
 
         if not account_ids:
-            raise osv.except_osv(_('Error'), _('No accounts to print.'))
+            raise Warning(_('Error'), _('No accounts to print.'))
 
         # computation of ledeger lines
         if main_filter == 'filter_date':
@@ -185,8 +186,8 @@ class PartnersOpenInvoicesWebkit(report_sxw.rml_parse, CommonPartnersReportHeade
             date_until_match = (stop == date_until)
 
         else:
-            raise osv.except_osv(_('Unsuported filter'),
-                                 _('Filter has to be in filter date, period, or none'))
+            raise Warning(_('Unsuported filter'),
+                          _('Filter has to be in filter date, period, or none'))
 
         initial_move_lines_per_account = {}
         if main_filter in ('filter_period', 'filter_no'):

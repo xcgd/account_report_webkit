@@ -111,8 +111,8 @@ Other improvements:
     'version': '2.0.2',
     'author': 'XCG Consulting',
     'license': 'AGPL-3',
-    'category': 'Finance',
-    'website': '',
+    'category': 'Accounting & Finance',
+    'website': 'http://odoo.consulting/',
     'depends': [
         'account_streamline',
         'analytic_structure',

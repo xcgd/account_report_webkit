@@ -1461,7 +1461,7 @@ msgstr ""
 #, python-format
 msgid "The following diagnosis message was provided:\n"
 ""
-msgstr "\n"
+msgstr " \n"
 
 #. module: account_report_webkit
 #: report:addons/account_report_webkit/report/templates/account_report_profit_loss.mako:77
@@ -1470,7 +1470,7 @@ msgid "Yes"
 msgstr "Oui"
 
 #. module: account_report_webkit
-:#: report:addons/account_report_webkit/report/templates/account_report_general_ledger.mako:208
+#: report:addons/account_report_webkit/report/templates/account_report_general_ledger.mako:208
 msgid "Total"
 msgstr "Total"
 

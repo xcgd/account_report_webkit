@@ -1,13 +1,13 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
 # * account_report_webkit
-# Vincent Hatakeyama <vincent.lhote@xcg-consulting.fr>, 2014.
+# Vincent Hatakeyama <vincent.lhote@xcg-consulting.fr>, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-06 10:56+0000\n"
-"PO-Revision-Date: 2014-12-26 17:36+0200\n"
+"POT-Creation-Date: 2015-02-06 10:59+0000\n"
+"PO-Revision-Date: 2015-02-06 12:00+0200\n"
 "Last-Translator: Vincent Hatakeyama <vincent.lhote@xcg-consulting.fr>\n"
 "Language-Team: XCG Consulting\n"
 "Language: fr\n"
@@ -33,7 +33,7 @@ msgid "Filter on accounts"
 msgstr "Filtre par compte"
 
 #. module: account_report_webkit
-#: code:addons/account_report_webkit/report/common_reports.py:526
+#: code:addons/account_report_webkit/report/common_reports.py:525
 #, python-format
 msgid "Please set a valid time filter"
 msgstr "Veuillez sélectionner un filtre de temps valide"
@@ -78,25 +78,10 @@ msgid "Periods Filter:"
 msgstr "Filtre par période :"
 
 #. module: account_report_webkit
-#: code:addons/account_report_webkit/report/webkit_parser_header_fix.py:180
-#, python-format
-msgid "No header defined for this Webkit report!"
-msgstr ""
-
-#. module: account_report_webkit
 #: code:addons/account_report_webkit/report/open_invoices.py:189
 #, python-format
 msgid "Filter has to be in filter date, period, or none"
 msgstr ""
-
-#. module: account_report_webkit
-#: view:partner.balance.webkit:0
-#: view:trial.balance.webkit:0
-msgid "{'required': [('filter', '=',\n"
-"                            'filter_opening')]}"
-msgstr ""
-"{'required': [('filter', '=',\n"
-"                            'filter_opening')]}"
 
 #. module: account_report_webkit
 #: model:ir.actions.report.xml,name:account_report_webkit.account_report_trial_balance_webkit
@@ -104,6 +89,7 @@ msgid "Trial Balance Webkit"
 msgstr "Balance générale"
 
 #. module: account_report_webkit
+#: report:addons/account_report_webkit/report/templates/account_report_general_ledger.mako:233
 #: report:addons/account_report_webkit/report/templates/account_report_partner_balance.mako:162
 #: report:addons/account_report_webkit/report/templates/account_report_profit_loss.mako:118
 #: report:addons/account_report_webkit/report/templates/account_report_trial_balance.mako:155
@@ -157,7 +143,7 @@ msgid "It adds the currency column"
 msgstr "Ajoute la colonne des devises"
 
 #. module: account_report_webkit
-#: code:addons/account_report_webkit/report/common_reports.py:87
+#: code:addons/account_report_webkit/report/common_reports.py:86
 #: selection:open.invoices.webkit,result_selection:0
 #: selection:partner.balance.webkit,result_selection:0
 #: selection:partners.ledger.webkit,result_selection:0
@@ -209,26 +195,12 @@ msgid "Partner Balance Report"
 msgstr "Balance par partenaires"
 
 #. module: account_report_webkit
-#: code:addons/account_report_webkit/report/webkit_parser_header_fix.py:204
-#: code:addons/account_report_webkit/report/webkit_parser_header_fix.py:215
-#: code:addons/account_report_webkit/report/webkit_parser_header_fix.py:230
-#, python-format
-msgid "Webkit render"
-msgstr ""
-
-#. module: account_report_webkit
-#: code:addons/account_report_webkit/report/webkit_parser_header_fix.py:175
-#, python-format
-msgid "Error!"
-msgstr "Erreur !"
-
-#. module: account_report_webkit
 #: model:ir.model,name:account_report_webkit.model_trial_balance_webkit
 msgid "Trial Balance Report"
 msgstr "Rapport de Balance générale"
 
 #. module: account_report_webkit
-#: code:addons/account_report_webkit/report/partners_ledger.py:50
+#: code:addons/account_report_webkit/report/partners_ledger.py:51
 #: model:ir.actions.act_window,name:account_report_webkit.action_account_partners_ledger_menu_webkit
 #: view:partners.ledger.webkit:0
 #, python-format
@@ -270,7 +242,7 @@ msgid "Rec."
 msgstr "Rec."
 
 #. module: account_report_webkit
-#: code:addons/account_report_webkit/report/common_reports.py:83
+#: code:addons/account_report_webkit/report/common_reports.py:82
 #: selection:open.invoices.webkit,result_selection:0
 #: selection:partner.balance.webkit,result_selection:0
 #: selection:partners.ledger.webkit,result_selection:0
@@ -311,12 +283,6 @@ msgstr "Rapport de Grand livre"
 msgid "Clearance date must be the very last date of the last period or later."
 msgstr ""
 "La date d’apurement doit être postérieure à la date de fin sélectionnée."
-
-#. module: account_report_webkit
-#: code:addons/account_report_webkit/report/webkit_parser_header_fix.py:132
-#, python-format
-msgid "Webkit error"
-msgstr ""
 
 #. module: account_report_webkit
 #: report:addons/account_report_webkit/report/templates/account_report_profit_loss.mako:48
@@ -403,12 +369,6 @@ msgid "Debit"
 msgstr "Débit"
 
 #. module: account_report_webkit
-#: code:addons/account_report_webkit/report/webkit_parser_header_fix.py:181
-#, python-format
-msgid "Please set a header in company settings"
-msgstr ""
-
-#. module: account_report_webkit
 #: view:general.ledger.webkit:0
 #: view:open.invoices.webkit:0
 #: view:partner.balance.webkit:0
@@ -487,6 +447,8 @@ msgstr "Compte dont le solde n'est pas 0"
 
 #. module: account_report_webkit
 #: view:open.invoices.webkit:0
+#: view:partner.balance.webkit:0
+#: view:trial.balance.webkit:0
 msgid "[('fiscalyear_id', '=', fiscalyear_id), ('special', '=', False)]"
 msgstr "[('fiscalyear_id', '=', fiscalyear_id), ('special', '=', False)]"
 
@@ -504,7 +466,7 @@ msgstr ""
 "votre choix."
 
 #. module: account_report_webkit
-#: code:addons/account_report_webkit/report/common_reports.py:518
+#: code:addons/account_report_webkit/report/common_reports.py:517
 #, python-format
 msgid "Must be in include_opening, exclude_opening"
 msgstr ""
@@ -522,7 +484,7 @@ msgstr "True"
 #: code:addons/account_report_webkit/report/common_balance_reports.py:256
 #: code:addons/account_report_webkit/report/common_partner_balance_reports.py:239
 #: code:addons/account_report_webkit/report/general_ledger.py:145
-#: code:addons/account_report_webkit/report/partners_ledger.py:155
+#: code:addons/account_report_webkit/report/partners_ledger.py:156
 #, python-format
 msgid "From %s to %s"
 msgstr "De %s à %s"
@@ -655,7 +617,7 @@ msgstr ""
 #: code:addons/account_report_webkit/report/general_ledger.py:78
 #: code:addons/account_report_webkit/report/open_invoices.py:76
 #: code:addons/account_report_webkit/report/partner_balance.py:63
-#: code:addons/account_report_webkit/report/partners_ledger.py:67
+#: code:addons/account_report_webkit/report/partners_ledger.py:68
 #: code:addons/account_report_webkit/report/print_journal.py:69
 #: code:addons/account_report_webkit/report/trial_balance.py:66
 #, python-format
@@ -663,7 +625,7 @@ msgid "of"
 msgstr "sur"
 
 #. module: account_report_webkit
-#: code:addons/account_report_webkit/report/common_reports.py:85
+#: code:addons/account_report_webkit/report/common_reports.py:84
 #: selection:open.invoices.webkit,result_selection:0
 #: selection:partner.balance.webkit,result_selection:0
 #: selection:partners.ledger.webkit,result_selection:0
@@ -725,7 +687,7 @@ msgstr "GRAND LIVRE"
 
 #. module: account_report_webkit
 #: selection:account.common.balance.report,target_move:0
-#: code:addons/account_report_webkit/report/common_reports.py:96
+#: code:addons/account_report_webkit/report/common_reports.py:95
 #: selection:general.ledger.webkit,target_move:0
 #: selection:open.invoices.webkit,target_move:0
 #: selection:partner.balance.webkit,target_move:0
@@ -777,12 +739,6 @@ msgstr "Balance initiale :"
 #: report:addons/account_report_webkit/report/templates/account_report_trial_balance.mako:166
 msgid "Balance C%s"
 msgstr "Balance C%s"
-
-#. module: account_report_webkit
-#: code:addons/account_report_webkit/report/webkit_parser_header_fix.py:133
-#, python-format
-msgid "The command 'wkhtmltopdf' failed with error code = %s. Message: %s"
-msgstr ""
 
 #. module: account_report_webkit
 #: selection:account.common.balance.report,comp0_filter:0
@@ -866,12 +822,6 @@ msgid "onchange_fiscalyear(fiscalyear_id, period_to, date_to, until_date)"
 msgstr "onchange_fiscalyear(fiscalyear_id, period_to, date_to, until_date)"
 
 #. module: account_report_webkit
-#: code:addons/account_report_webkit/report/webkit_parser_header_fix.py:175
-#, python-format
-msgid "Webkit Report template not found !"
-msgstr ""
-
-#. module: account_report_webkit
 #: field:general.ledger.webkit,currency_id:0
 #: field:trial.balance.webkit,currency_id:0
 msgid "Filter on currencies"
@@ -950,7 +900,7 @@ msgstr "Factures ouvertes"
 
 #. module: account_report_webkit
 #: selection:account.common.balance.report,target_move:0
-#: code:addons/account_report_webkit/report/common_reports.py:94
+#: code:addons/account_report_webkit/report/common_reports.py:93
 #: selection:general.ledger.webkit,target_move:0
 #: selection:open.invoices.webkit,target_move:0
 #: selection:partner.balance.webkit,target_move:0
@@ -972,7 +922,7 @@ msgstr "Comparaison %s"
 
 #. module: account_report_webkit
 #: code:addons/account_report_webkit/report/open_invoices.py:127
-#: code:addons/account_report_webkit/report/partners_ledger.py:118
+#: code:addons/account_report_webkit/report/partners_ledger.py:119
 #, python-format
 msgid "No accounts to print."
 msgstr "Aucun compte à afficher."
@@ -1015,9 +965,9 @@ msgid "No Filters"
 msgstr "Pas de filtre"
 
 #. module: account_report_webkit
-#: code:addons/account_report_webkit/report/common_reports.py:362
+#: code:addons/account_report_webkit/report/common_reports.py:361
 #: code:addons/account_report_webkit/report/open_invoices.py:127
-#: code:addons/account_report_webkit/report/partners_ledger.py:118
+#: code:addons/account_report_webkit/report/partners_ledger.py:119
 #, python-format
 msgid "Error"
 msgstr "Erreur"
@@ -1046,7 +996,7 @@ msgid "Code"
 msgstr "Code"
 
 #. module: account_report_webkit
-#: code:addons/account_report_webkit/report/common_reports.py:323
+#: code:addons/account_report_webkit/report/common_reports.py:322
 #, python-format
 msgid "No period found"
 msgstr "Aucune période trouvée"
@@ -1063,7 +1013,7 @@ msgstr ""
 "imprimés ; ou les comptes du livre courant si non-sélectionné."
 
 #. module: account_report_webkit
-#: code:addons/account_report_webkit/report/common_reports.py:449
+#: code:addons/account_report_webkit/report/common_reports.py:448
 #, python-format
 msgid "Centralized Entries"
 msgstr "Entrées centralisées"
@@ -1080,7 +1030,6 @@ msgstr "Filtre par compte"
 #: view:general.ledger.webkit:0
 #: view:partner.balance.webkit:0
 #: view:partners.ledger.webkit:0
-#: view:trial.balance.webkit:0
 msgid "[('fiscalyear_id', '=',\n"
 "                            fiscalyear_id), ('special', '=', False)]"
 msgstr ""
@@ -1098,7 +1047,7 @@ msgid "Dates Filter"
 msgstr "Filtre par date"
 
 #. module: account_report_webkit
-#: code:addons/account_report_webkit/report/common_reports.py:76
+#: code:addons/account_report_webkit/report/common_reports.py:75
 #: selection:general.ledger.webkit,display_account:0
 #, python-format
 msgid "With transactions or non zero balance"
@@ -1147,7 +1096,7 @@ msgid "Ouput element"
 msgstr "Élément de sortie"
 
 #. module: account_report_webkit
-#: code:addons/account_report_webkit/report/common_reports.py:518
+#: code:addons/account_report_webkit/report/common_reports.py:517
 #, python-format
 msgid "Invalid query mode"
 msgstr ""
@@ -1159,16 +1108,10 @@ msgid "Unsuported filter"
 msgstr "Filtre non supporté"
 
 #. module: account_report_webkit
-#: code:addons/account_report_webkit/report/common_reports.py:74
+#: code:addons/account_report_webkit/report/common_reports.py:73
 #, python-format
 msgid "All accounts"
 msgstr "Tous les comptes"
-
-#. module: account_report_webkit
-#: code:addons/account_report_webkit/report/webkit_parser_header_fix.py:128
-#, python-format
-msgid "No diagnosis message was provided"
-msgstr ""
 
 #. module: account_report_webkit
 #: report:addons/account_report_webkit/report/templates/account_report_general_ledger.mako:104
@@ -1177,10 +1120,16 @@ msgid "Period"
 msgstr "Période"
 
 #. module: account_report_webkit
-#: code:addons/account_report_webkit/report/common_reports.py:526
+#: code:addons/account_report_webkit/report/common_reports.py:525
 #, python-format
 msgid "No valid filter"
 msgstr "Aucun filtre valide"
+
+#. module: account_report_webkit
+#: view:partner.balance.webkit:0
+#: view:trial.balance.webkit:0
+msgid "{'required': [('filter', '=', 'filter_opening')]}"
+msgstr ""
 
 #. module: account_report_webkit
 #: view:open.invoices.webkit:0
@@ -1396,7 +1345,7 @@ msgstr ""
 #: code:addons/account_report_webkit/report/general_ledger.py:78
 #: code:addons/account_report_webkit/report/open_invoices.py:76
 #: code:addons/account_report_webkit/report/partner_balance.py:63
-#: code:addons/account_report_webkit/report/partners_ledger.py:67
+#: code:addons/account_report_webkit/report/partners_ledger.py:68
 #: code:addons/account_report_webkit/report/print_journal.py:69
 #: code:addons/account_report_webkit/report/trial_balance.py:66
 #, python-format
@@ -1444,24 +1393,17 @@ msgid "OPEN INVOICES REPORT"
 msgstr "FACTURES OUVERTES"
 
 #. module: account_report_webkit
-#: code:addons/account_report_webkit/report/partners_ledger.py:43
+#: code:addons/account_report_webkit/report/partners_ledger.py:44
 #, python-format
 msgid "PARTNER LEDGER"
 msgstr "LIVRE DES TIERS"
 
 #. module: account_report_webkit
-#: code:addons/account_report_webkit/report/common_reports.py:363
+#: code:addons/account_report_webkit/report/common_reports.py:362
 #, python-format
 msgid "No opening period found to compute the opening balances.\n"
 "You have to configure a period on the first of January with the special flag."
 msgstr ""
-
-#. module: account_report_webkit
-#: code:addons/account_report_webkit/report/webkit_parser_header_fix.py:130
-#, python-format
-msgid "The following diagnosis message was provided:\n"
-""
-msgstr "\n"
 
 #. module: account_report_webkit
 #: report:addons/account_report_webkit/report/templates/account_report_profit_loss.mako:77
@@ -1470,9 +1412,9 @@ msgid "Yes"
 msgstr "Oui"
 
 #. module: account_report_webkit
-:#: report:addons/account_report_webkit/report/templates/account_report_general_ledger.mako:208
+#: report:addons/account_report_webkit/report/templates/account_report_general_ledger.mako:215
 msgid "Total"
-msgstr "Total"
+msgstr ""
 
 #. module: account_report_webkit
 #: field:account.common.balance.report,comp0_filter:0
@@ -1485,4 +1427,19 @@ msgstr "Total"
 #: field:trial.balance.webkit,comp1_filter:0
 #: field:trial.balance.webkit,comp2_filter:0
 msgid "Compare By"
-msgstr "Comparer sur"
+msgstr ""
+
+#~ msgid "{'required': [('filter', '=',\n"
+#~ "                            'filter_opening')]}"
+#~ msgstr ""
+#~ "{'required': [('filter', '=',\n"
+#~ "                            'filter_opening')]}"
+
+#, python-format
+#~ msgid "Error!"
+#~ msgstr "Erreur !"
+
+#, python-format
+#~ msgid "The following diagnosis message was provided:\n"
+#~ ""
+#~ msgstr "\n"

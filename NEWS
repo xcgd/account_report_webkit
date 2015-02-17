@@ -1,0 +1,5 @@
+account_report_webkit 1.5
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Update note: remove old headers or manually update them to include the following fix:
+- [TKT/2015/01315] Fix column problem by following instruction of https://github.com/wkhtmltopdf/wkhtmltopdf/commit/5dea2532977e5e9fbcb8da7aa3bd399b257096f4 (reference from https://github.com/wkhtmltopdf/wkhtmltopdf/issues/1770)

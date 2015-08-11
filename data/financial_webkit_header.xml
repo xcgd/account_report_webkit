@@ -65,7 +65,7 @@
             <field name="css"><![CDATA[
 
 body, table, td, span, div {
-    font-family: Helvetica, Arial;
+    font-family: Helvetica, Arial, serif;
 }
 
 .act_as_table {
